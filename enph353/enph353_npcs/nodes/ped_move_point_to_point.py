@@ -1,7 +1,8 @@
 #!/usr/bin/env python
-import rospy
-import numpy as np
 import math
+import numpy as np
+import random
+import rospy
 
 from geometry_msgs.msg import Twist, PoseStamped, Pose
 from tf.transformations import euler_from_quaternion
@@ -28,7 +29,7 @@ class CrosswalkController():
         self.pose_goal = self.pose_goal_buffer[0]
 
         self.max_angular_vel = 2
-        self.max_linear_vel = 0.1
+        self.max_linear_vel = 0.2
         self.at_rest = False
         self.last_reached_dest_time = rospy.Time.now()
 
@@ -63,7 +64,7 @@ class CrosswalkController():
                     # Drive forwards to goal position
                     elif dist > self.position_deadband:
                         # print("Moving to destination position",dist)
-                        cmd_vel.linear.x = self.max_linear_vel
+                        cmd_vel.linear.x = self.max_linear_vel * random.uniform(0.1, 1)
                     # Rotate to align with goal orientation
                     # elif dist < self.position_deadband and abs(current_rpy[2] - dest_rpy[2]) < self.orientation_deadband and not self.at_rest:
                     #     print("Aligning with desintation orientation")
