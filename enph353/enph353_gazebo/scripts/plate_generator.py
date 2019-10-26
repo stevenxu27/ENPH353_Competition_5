@@ -1,13 +1,15 @@
 #!/usr/bin/env python
 
-import pyqrcode
-import string
-import random
-from random import randint
 import cv2
-import numpy as np
 import csv
+import numpy as np
 import os
+import pyqrcode
+import random
+import string
+
+from random import randint
+from PIL import Image, ImageFont, ImageDraw
 
 path = os.path.dirname(os.path.realpath(__file__)) + "/"
 texture_path = '../media/materials/textures/'
@@ -31,9 +33,21 @@ with open(path + "plates.csv", 'w') as plates_file:
 
         # Write plate to image
         blank_plate = cv2.imread(path+'blank_plate.png')
-        cv2.putText(blank_plate,
-                    plate_alpha + " " + plate_num, (45, 360),
-                    cv2.FONT_HERSHEY_PLAIN, 11, (255, 0, 0), 7, cv2.LINE_AA)
+
+        # To use monospaced font for the license plate we need to use the PIL
+        # package.
+        # Convert into a PIL image (this is so we can use the monospaced fonts)
+        blank_plate_pil = Image.fromarray(blank_plate)
+        # Get a drawing context
+        draw = ImageDraw.Draw(blank_plate_pil)
+        monospace = ImageFont.truetype("/usr/share/fonts/truetype/ubuntu/UbuntuMono-R.ttf", 200)
+        draw.text((48, 105),plate_alpha + " " + plate_num, (255,0,0), font=monospace)
+        # Convert back to OpenCV image and save
+        blank_plate = np.array(blank_plate_pil)
+
+        # cv2.putText(blank_plate,
+        #             plate_alpha + " " + plate_num, (45, 360),
+        #             cv2.FONT_HERSHEY_PLAIN, 11, (255, 0, 0), 7, cv2.LINE_AA)
 
         # Create QR code image
         spot_name = "P" + str(i)
