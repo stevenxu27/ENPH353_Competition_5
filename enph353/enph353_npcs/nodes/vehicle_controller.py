@@ -31,7 +31,7 @@ class VehicleController():
         self.pose_goal = self.pose_goal_buffer[0]
 
         self.max_angular_vel = 2
-        self.max_linear_vel = 0.2
+        self.max_linear_vel = 0.1
         self.at_rest = False
         self.last_reached_dest_time = rospy.Time.now()
 
