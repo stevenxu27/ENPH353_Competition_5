@@ -1,6 +1,8 @@
 #!/usr/bin/env python
-from PyQt5 import QtCore, QtGui, QtWidgets, uic
+from PyQt5 import QtCore, QtGui, QtWidgets
+from PyQt5.QtCore import (Qt, pyqtSignal)
 from std_msgs.msg import String
+from python_qt_binding import loadUi
 
 import csv
 import os
@@ -10,9 +12,11 @@ import sys
 NUM_LOCATIONS = 8
 
 class Window(QtWidgets.QMainWindow):
+    license_plate_signal = pyqtSignal(str)
+
     def __init__(self):
         super(Window, self).__init__()
-        uic.loadUi("./score_tracker.ui", self)
+        loadUi("./score_tracker.ui", self)
 
         # Populate tables
         LICENSE_PLATE_FILE = '/../../enph353_gazebo/scripts/plates.csv'
@@ -23,6 +27,7 @@ class Window(QtWidgets.QMainWindow):
             for row in platereader:
                 if i < NUM_LOCATIONS:
                     self.license_scores_QTW.item(i, 1).setText(row[0])
+                    self.log_msg("Position {}: {}".format(i+1, row[0]))
                 else:
                     break
                 i += 1
@@ -31,6 +36,12 @@ class Window(QtWidgets.QMainWindow):
         self.penalty_vehicle_QPB.clicked.connect(self.penalty_vehicle)
         self.penalty_pedestrian_QPB.clicked.connect(self.penalty_pedestrian)
         self.penalty_track_QPB.clicked.connect(self.penalty_track)
+
+        self.license_plate_signal.connect(self.update_license_plates)
+
+        self.sub = rospy.Subscriber("license_plate", String, 
+                                    self.licensePlate_callback)
+        rospy.init_node('my_listener')
 
 
     def penalty_pedestrian(self):
@@ -69,12 +80,14 @@ class Window(QtWidgets.QMainWindow):
     def update_license_total(self):
         licenseTotal = 0
         for i in range(NUM_LOCATIONS):
-            licenseTotal += self.license_scores_QTW.item(i, 3)
+            licenseTotal += int(self.license_scores_QTW.item(i, 3).text())
 
         self.license_total_value_QL.setText(str(licenseTotal))
 
-        penaltyTotal     = int(self.penalties_total_value_QL.text())
-        self.total_scorea_value_QL.setText(str(penaltyTotal + licenseTotal))
+        penaltyTotal = int(self.penalties_total_value_QL.text())
+        teamTotal = penaltyTotal + licenseTotal
+        self.total_score_value_QL.setText(str(teamTotal))
+        self.log_msg("Team total: {} pts".format(str(teamTotal)))
 
 
     def update_penalty_total(self):
@@ -86,7 +99,9 @@ class Window(QtWidgets.QMainWindow):
         self.penalties_total_value_QL.setText(str(penaltyTotal))
 
         licenseTotal = int(self.license_total_value_QL.text())
-        self.total_score_value_QL.setText(str(penaltyTotal + licenseTotal))
+        teamTotal = penaltyTotal + licenseTotal
+        self.total_score_value_QL.setText(str(teamTotal))
+        self.log_msg("Team total: {} pts".format(str(teamTotal)))
 
 
     def log_msg(self, message):
@@ -94,21 +109,36 @@ class Window(QtWidgets.QMainWindow):
 
 
     def licensePlate_callback(self, data):
-        # TODO: Parse data
-        teamID, teamPswd, plateLocation, plateID = data.split(',')
-        self.comms_log_QTE.append("Callback called: {}".format(data.data))
+        self.license_plate_signal.emit(str(data.data))
+
+
+    def update_license_plates(self, license_string):
+        self.log_msg("Callback called: {}".format(license_string))
+
+        teamID, teamPswd, plateLocation, plateID = str(license_string).split(',')
+        plateLocation = int(plateLocation)
+
+        self.team_ID_value_QL.setText(teamID)
+
+        self.license_scores_QTW.item(plateLocation-1, 2).setText(plateID)
+        gndTruth = str(self.license_scores_QTW.item(plateLocation-1, 1).text())
+
+        if gndTruth == plateID:
+            self.license_scores_QTW.item(plateLocation-1, 3).setText(str(5))
+            self.log_msg("Awarded: {} pts".format(5))
+        else:
+            self.license_scores_QTW.item(plateLocation-1, 3).setText(str(-5))
+            self.log_msg("Awarded: {} pts".format(-5))
+
+        self.update_license_total()
 
 if __name__ == "__main__":
-    # data = rospy.wait_for_message('/R1/cmd_vel', Twist)
     # monitor which topics get subscribed by the user
     # emphasize the only topics teams are allowed to subscribe to
+    # teamname,teampasswd,location,platid
 
     app = QtWidgets.QApplication(sys.argv)
     window = Window()
     window.show()
-
-    rospy.init_node('my_listener')
-    rospy.Subscriber("license_plate", String, window.licensePlate_callback)
-    # teamname,teampasswd,location,platid
 
     sys.exit(app.exec_())
