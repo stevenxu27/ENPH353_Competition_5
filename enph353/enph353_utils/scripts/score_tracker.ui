@@ -448,15 +448,27 @@ Limits</string>
      <x>470</x>
      <y>20</y>
      <width>361</width>
-     <height>461</height>
+     <height>451</height>
     </rect>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>8</pointsize>
+    </font>
+   </property>
+   <property name="html">
+    <string>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
+&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
+p, li { white-space: pre-wrap; }
+&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'Noto Sans'; font-size:8pt; font-weight:400; font-style:normal;&quot;&gt;
+&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-size:6pt;&quot;&gt;&lt;br /&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
    </property>
   </widget>
   <widget class="QLabel" name="team_ID_label_QL">
    <property name="geometry">
     <rect>
      <x>470</x>
-     <y>510</y>
+     <y>520</y>
      <width>101</width>
      <height>17</height>
     </rect>
@@ -469,7 +481,7 @@ Limits</string>
    <property name="geometry">
     <rect>
      <x>470</x>
-     <y>540</y>
+     <y>550</y>
      <width>101</width>
      <height>17</height>
     </rect>
@@ -482,7 +494,7 @@ Limits</string>
    <property name="geometry">
     <rect>
      <x>600</x>
-     <y>510</y>
+     <y>520</y>
      <width>111</width>
      <height>17</height>
     </rect>
@@ -495,13 +507,49 @@ Limits</string>
    <property name="geometry">
     <rect>
      <x>600</x>
-     <y>540</y>
+     <y>550</y>
      <width>101</width>
      <height>17</height>
     </rect>
    </property>
    <property name="text">
     <string>0</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="log_file_label_QL">
+   <property name="geometry">
+    <rect>
+     <x>470</x>
+     <y>480</y>
+     <width>61</width>
+     <height>17</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>8</pointsize>
+    </font>
+   </property>
+   <property name="text">
+    <string>Log file:</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="log_file_value_QL">
+   <property name="geometry">
+    <rect>
+     <x>540</x>
+     <y>480</y>
+     <width>291</width>
+     <height>17</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>8</pointsize>
+    </font>
+   </property>
+   <property name="text">
+    <string>DEFAULT</string>
    </property>
   </widget>
  </widget>

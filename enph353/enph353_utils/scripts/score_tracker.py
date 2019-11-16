@@ -1,4 +1,5 @@
 #!/usr/bin/env python
+from datetime import datetime
 from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtCore import (Qt, pyqtSignal)
 from std_msgs.msg import String
@@ -12,11 +13,18 @@ import sys
 NUM_LOCATIONS = 8
 
 class Window(QtWidgets.QMainWindow):
-    license_plate_signal = pyqtSignal(str)
+    message_received_signal = pyqtSignal(str)
 
     def __init__(self):
         super(Window, self).__init__()
         loadUi("./score_tracker.ui", self)
+
+        # Populate log file name
+        now = datetime.now()
+        date_time = now.strftime("%Y-%m-%d_%H:%M:%S")
+        self.log_file_path = (self.team_ID_value_QL.text() + "_" + 
+                              date_time + '.txt')
+        self.log_file_value_QL.setText(self.log_file_path)
 
         # Populate tables
         LICENSE_PLATE_FILE = '/../../enph353_gazebo/scripts/plates.csv'
@@ -37,7 +45,7 @@ class Window(QtWidgets.QMainWindow):
         self.penalty_pedestrian_QPB.clicked.connect(self.SLOT_penalty_pedestrian)
         self.penalty_track_QPB.clicked.connect(self.SLOT_penalty_track)
 
-        self.license_plate_signal.connect(self.SLOT_update_license_plates)
+        self.message_received_signal.connect(self.SLOT_message_received)
 
         self.sub = rospy.Subscriber("license_plate", String, 
                                     self.licensePlate_callback)
@@ -45,11 +53,19 @@ class Window(QtWidgets.QMainWindow):
 
 
     def licensePlate_callback(self, data):
-        self.license_plate_signal.emit(str(data.data))
+        self.message_received_signal.emit(str(data.data))
 
 
     def log_msg(self, message):
-        self.comms_log_QTE.append(message)
+        now = datetime.now()
+        date_time = now.strftime("%H:%M:%S")
+        log_output = "<font color='blue'>{}</font>: {}".format(date_time, message)
+        self.comms_log_QTE.append(log_output)
+
+        log_file_content = self.comms_log_QTE.toPlainText()
+
+        with open(self.log_file_path, "w") as html_file:
+            html_file.write(log_file_content)
 
 
     def SLOT_penalty_pedestrian(self):
@@ -85,20 +101,31 @@ class Window(QtWidgets.QMainWindow):
         self.update_penalty_total()
 
 
-    def SLOT_update_license_plates(self, license_string):
-        self.log_msg("Message received: {}".format(license_string))
-
+    def SLOT_message_received(self, license_string):
         teamID, teamPswd, plateLocation, plateID = str(license_string).split(',')
         plateLocation = int(plateLocation)
 
+        # Use to register the team name (not for points)
         if plateLocation == 0:
+            # Update team ID and log file name:
+            if teamID !=  self.team_ID_value_QL.text():
+                now = datetime.now()
+                date_time = now.strftime("%Y-%m-%d_%H:%M:%S")
+                self.log_file_path = teamID + "_" + date_time + '.txt'
+                self.log_file_value_QL.setText(self.log_file_path)
+
             self.team_ID_value_QL.setText(teamID)
+            self.log_msg("Message received: {}".format(license_string))
             return
 
+        self.log_msg("Message received: {}".format(license_string))
+
+        # Check out of bounds plate location
         if plateLocation < 0 or plateLocation > 8:
             self.log_msg("Invalid plate location: {}".format(plateLocation))
-            return    
+            return
 
+        # Check license plate ID and location against gnd truth:
         self.license_scores_QTW.item(plateLocation-1, 2).setText(plateID)
         gndTruth = str(self.license_scores_QTW.item(plateLocation-1, 1).text())
 
