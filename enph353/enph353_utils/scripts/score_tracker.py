@@ -21,7 +21,7 @@ class Window(QtWidgets.QMainWindow):
 
         # Populate log file name
         now = datetime.now()
-        date_time = now.strftime("%Y-%m-%d_%H:%M:%S")
+        date_time = now.strftime("%Y%m%d_%H%M%S")
         self.log_file_path = (self.team_ID_value_QL.text() + "_" + 
                               date_time + '.txt')
         self.log_file_value_QL.setText(self.log_file_path)
@@ -110,7 +110,7 @@ class Window(QtWidgets.QMainWindow):
             # Update team ID and log file name:
             if teamID !=  self.team_ID_value_QL.text():
                 now = datetime.now()
-                date_time = now.strftime("%Y-%m-%d_%H:%M:%S")
+                date_time = now.strftime("%Y%m%d_%H%M%S")
                 self.log_file_path = teamID + "_" + date_time + '.txt'
                 self.log_file_value_QL.setText(self.log_file_path)
 
