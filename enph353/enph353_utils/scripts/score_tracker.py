@@ -33,18 +33,26 @@ class Window(QtWidgets.QMainWindow):
                 i += 1
 
         # Connect widgets
-        self.penalty_vehicle_QPB.clicked.connect(self.penalty_vehicle)
-        self.penalty_pedestrian_QPB.clicked.connect(self.penalty_pedestrian)
-        self.penalty_track_QPB.clicked.connect(self.penalty_track)
+        self.penalty_vehicle_QPB.clicked.connect(self.SLOT_penalty_vehicle)
+        self.penalty_pedestrian_QPB.clicked.connect(self.SLOT_penalty_pedestrian)
+        self.penalty_track_QPB.clicked.connect(self.SLOT_penalty_track)
 
-        self.license_plate_signal.connect(self.update_license_plates)
+        self.license_plate_signal.connect(self.SLOT_update_license_plates)
 
         self.sub = rospy.Subscriber("license_plate", String, 
                                     self.licensePlate_callback)
         rospy.init_node('my_listener')
 
 
-    def penalty_pedestrian(self):
+    def licensePlate_callback(self, data):
+        self.license_plate_signal.emit(str(data.data))
+
+
+    def log_msg(self, message):
+        self.comms_log_QTE.append(message)
+
+
+    def SLOT_penalty_pedestrian(self):
         numEvents       = int(self.penalties_scores_QTW.item(1, 1).text()) + 1
         penaltyPerEvent = int(self.penalties_scores_QTW.item(1, 2).text())
         penaltyTotal    = numEvents * penaltyPerEvent
@@ -55,7 +63,7 @@ class Window(QtWidgets.QMainWindow):
         self.update_penalty_total()
 
 
-    def penalty_track(self):
+    def SLOT_penalty_track(self):
         numEvents       = int(self.penalties_scores_QTW.item(2, 1).text()) + 1
         penaltyPerEvent = int(self.penalties_scores_QTW.item(2, 2).text())
         penaltyTotal    = numEvents * penaltyPerEvent
@@ -66,7 +74,7 @@ class Window(QtWidgets.QMainWindow):
         self.update_penalty_total()
 
 
-    def penalty_vehicle(self):
+    def SLOT_penalty_vehicle(self):
         numEvents       = int(self.penalties_scores_QTW.item(0, 1).text()) + 1
         penaltyPerEvent = int(self.penalties_scores_QTW.item(0, 2).text())
         penaltyTotal    = numEvents * penaltyPerEvent
@@ -75,6 +83,33 @@ class Window(QtWidgets.QMainWindow):
 
         self.log_msg("Penalty: vehicle collision: -5 pts")
         self.update_penalty_total()
+
+
+    def SLOT_update_license_plates(self, license_string):
+        self.log_msg("Message received: {}".format(license_string))
+
+        teamID, teamPswd, plateLocation, plateID = str(license_string).split(',')
+        plateLocation = int(plateLocation)
+
+        if plateLocation == 0:
+            self.team_ID_value_QL.setText(teamID)
+            return
+
+        if plateLocation < 0 or plateLocation > 8:
+            self.log_msg("Invalid plate location: {}".format(plateLocation))
+            return    
+
+        self.license_scores_QTW.item(plateLocation-1, 2).setText(plateID)
+        gndTruth = str(self.license_scores_QTW.item(plateLocation-1, 1).text())
+
+        if gndTruth == plateID:
+            self.license_scores_QTW.item(plateLocation-1, 3).setText(str(5))
+            self.log_msg("Awarded: {} pts".format(5))
+        else:
+            self.license_scores_QTW.item(plateLocation-1, 3).setText(str(-5))
+            self.log_msg("Awarded: {} pts".format(-5))
+
+        self.update_license_total()
 
 
     def update_license_total(self):
@@ -104,39 +139,7 @@ class Window(QtWidgets.QMainWindow):
         self.log_msg("Team total: {} pts".format(str(teamTotal)))
 
 
-    def log_msg(self, message):
-        self.comms_log_QTE.append(message)
-
-
-    def licensePlate_callback(self, data):
-        self.license_plate_signal.emit(str(data.data))
-
-
-    def update_license_plates(self, license_string):
-        self.log_msg("Callback called: {}".format(license_string))
-
-        teamID, teamPswd, plateLocation, plateID = str(license_string).split(',')
-        plateLocation = int(plateLocation)
-
-        self.team_ID_value_QL.setText(teamID)
-
-        self.license_scores_QTW.item(plateLocation-1, 2).setText(plateID)
-        gndTruth = str(self.license_scores_QTW.item(plateLocation-1, 1).text())
-
-        if gndTruth == plateID:
-            self.license_scores_QTW.item(plateLocation-1, 3).setText(str(5))
-            self.log_msg("Awarded: {} pts".format(5))
-        else:
-            self.license_scores_QTW.item(plateLocation-1, 3).setText(str(-5))
-            self.log_msg("Awarded: {} pts".format(-5))
-
-        self.update_license_total()
-
 if __name__ == "__main__":
-    # monitor which topics get subscribed by the user
-    # emphasize the only topics teams are allowed to subscribe to
-    # teamname,teampasswd,location,platid
-
     app = QtWidgets.QApplication(sys.argv)
     window = Window()
     window.show()
