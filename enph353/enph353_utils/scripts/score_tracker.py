@@ -4,6 +4,7 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtGui import (QPixmap)
 from PyQt5.QtCore import (Qt, QTimer, pyqtSignal)
 from std_msgs.msg import String
+from geometry_msgs.msg import Twist
 from python_qt_binding import loadUi
 
 import csv
@@ -51,6 +52,8 @@ class Window(QtWidgets.QMainWindow):
         # Initialize other variables:
         self.full_lap_points = 0
 
+        self.first_cmd_vel = True
+
         # Connect widgets
 
         # Table values changed:
@@ -70,10 +73,17 @@ class Window(QtWidgets.QMainWindow):
         self.start_timer_QPB.clicked.connect(self.SLOT_start_timer)
 
         # Set-up ROS subscribers
-        self.sub = rospy.Subscriber("license_plate", String, 
-                                    self.licensePlate_callback)
+        self.sub_license_plate = rospy.Subscriber("license_plate", String, 
+                                                  self.licensePlate_callback)
+        self.sub_cmd_vel = rospy.Subscriber("/R1/cmd_vel", Twist,
+                                            self.cmd_vel_callback)
         rospy.init_node('competition_listener')
 
+
+    def cmd_vel_callback(self, data):
+        if self.first_cmd_vel:
+            self.log_msg("First command velocity received.")
+            self.first_cmd_vel = False
 
     def licensePlate_callback(self, data):
         self.message_received_signal.emit(str(data.data))
@@ -81,7 +91,7 @@ class Window(QtWidgets.QMainWindow):
 
     def log_msg(self, message):
         now = datetime.now()
-        date_time = now.strftime("%H:%M:%S")
+        date_time = now.strftime("%H:%M:%S.%f")[:-3]
         log_output = "<font color='blue'>{}</font>: {}".format(date_time, message)
         self.comms_log_QTE.append(log_output)
         # self.comms_log_QTE.insertHtml(log_output)
