@@ -1,4 +1,4 @@
-# 2019F UBC Parking competition
+# 2020T1 UBC Parking competition
 
 The repository contains the following ROS packages:
 
@@ -11,15 +11,17 @@ The repository contains the following ROS packages:
 | adeept_awr_ros_driver | controls real world Adeept AWR robot |
 
 ## Installation instructions:
+** Prerequisites: Ubuntu 18.04 with ROS Melodic installed **
+
 * If you **do not** have a workspace already create one in your home directory.
 ```
-mkdir -p ~/353_ws/src
-cd ~/353_ws/src
+mkdir -p ~/ros_ws/src
+cd ~/ros_ws/src
 ```
 
 * Clone the repository into a catkin workspace src folder.
 ```
-git clone https://github.com/ENPH353/2019F_competition_students.git
+git clone https://github.com/ENPH353/2020T1_competition.git
 ```
 
 * Build the packages
@@ -35,8 +37,8 @@ source devel/setup.bash
 
 * Start the simulated world
 ```
-cd src/enph353_2019F_competition/enph353/enph353_utils/scripts
-./run_sim.sh -vpgl
+cd src/2020T1_competition/enph353/enph353_utils/scripts
+./run_sim.sh -vpg
 ```
 The available options are:
 
@@ -45,4 +47,14 @@ The available options are:
 | -v     | spawn vehicle    |
 | -p     | spawn pedestrian |
 | -g     | generate new license plates |
-| -l     | display QR code labels |
+
+* Start the score tracking app
+Open a new tab in the current terminal window by pressing Ctrl+Shift+T 
+The new terminal should already be in:
+```
+~/ros_ws/src/2020T1_competition/enph353/enph353_utils/scripts
+```
+Launch the score tracking app:
+```
+./score_tracker.py
+```
