@@ -13,11 +13,11 @@
         <box size = "0.13 0.12 0.08"/>
       </geometry>
     </collision>
-    <inertial>
+    <!--inertial>
       <origin xyz="0.0 0.0125 0.0"/>
       <mass value="0.500"/>
       <inertia ixx="0.00009565" ixy="0.0" ixz="0" iyy="0.0003999" iyz="0.0" izz="0.0004892"/>
-    </inertial>
+    </inertial-->
   </link>
   <!-- Camera -->
   <joint name="camera_joint" type="fixed">
@@ -210,7 +210,7 @@
       <wheelDiameter>0.065</wheelDiameter>
       <robotBaseFrame>chassis</robotBaseFrame>
       <torque>0.0784532</torque>
-      <commandTopic>skid_vel</commandTopic>
+      <commandTopic>cmd_vel</commandTopic>
       <broadcastTF>false</broadcastTF>
     </plugin>
     <plugin name="joint_state_publisher" filename="libgazebo_ros_joint_state_publisher.so">

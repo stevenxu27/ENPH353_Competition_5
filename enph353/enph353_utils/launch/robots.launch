@@ -7,10 +7,6 @@
 			<arg name="robot_name"  value="R1" />
 		</include>
 		<include file="$(find enph353_utils)/launch/desktop.launch"/>
-		<node pkg="adeept_awr_gazebo" type="velocity_clamp.py" name="fake_adeept_driver" output="screen">
-			<param name="src_topic" value="cmd_vel"/>
-			<param name="dst_topic" value="skid_vel"/>
-		</node>
 	</group>
 <!--
 	<group ns="B1">
@@ -20,10 +16,6 @@
 			<arg name="robot_name"  value="B1" />
 		</include>
 		<include file="$(find enph353_utils)/launch/desktop.launch"/>
-		<node pkg="adeept_awr_gazebo" type="velocity_clamp.py" name="fake_adeept_driver" output="screen">
-			<param name="src_topic" value="cmd_vel"/>
-			<param name="dst_topic" value="skid_vel"/>
-		</node>
 	</group>
 -->
 </launch>

@@ -79,7 +79,6 @@ class Window(QtWidgets.QMainWindow):
                                             self.cmd_vel_callback)
         rospy.init_node('competition_listener')
 
-
     def cmd_vel_callback(self, data):
         if self.first_cmd_vel:
             self.log_msg("First command velocity received.")
@@ -206,6 +205,7 @@ class Window(QtWidgets.QMainWindow):
 
     def SLOT_start_timer(self):
         self.elapsed_time_s = 0
+        self.sim_start_time_s = rospy.get_time()
         self.elapsed_time_value_QL.setText(
             "{:03d} sec".format(self.elapsed_time_s))
         self.timer.start(1000)
@@ -213,11 +213,16 @@ class Window(QtWidgets.QMainWindow):
 
 
     def SLOT_timer_update(self):
+        ROUND_DURATION_s = 240
         self.elapsed_time_s += 1
+        self.sim_current_time_s = rospy.get_time()
         self.elapsed_time_value_QL.setText(
             "{:03d} sec".format(self.elapsed_time_s))
-        if (self.elapsed_time_s == 240):
-            self.log_msg("Out of time: 4 minutes.")
+        sim_time_s = self.sim_current_time_s - self.sim_start_time_s
+        if (sim_time_s > ROUND_DURATION_s):
+            self.log_msg("Out of time: {}sec sim time (real time: {}sec).".
+                format(sim_time_s, self.elapsed_time_s))
+            self.timer.stop()
 
 
     def update_license_total(self):
