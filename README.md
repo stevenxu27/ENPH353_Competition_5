@@ -1,4 +1,4 @@
-# 2020T1 UBC Parking competition
+# 2020 UBC Parking competition
 
 The repository contains the following ROS packages:
 
