@@ -29,7 +29,8 @@ class CrosswalkController():
         self.pose_goal = self.pose_goal_buffer[0]
 
         self.max_angular_vel = 2
-        self.max_linear_vel = 0.2
+        self.max_linear_vel = random.uniform(0.5, 1)
+        self.WAIT_TIME_s = random.uniform(0.5, 2)
         self.at_rest = False
         self.last_reached_dest_time = rospy.Time.now()
 
@@ -64,7 +65,7 @@ class CrosswalkController():
                     # Drive forwards to goal position
                     elif dist > self.position_deadband:
                         # print("Moving to destination position",dist)
-                        cmd_vel.linear.x = self.max_linear_vel * random.uniform(0.1, 1)
+                        cmd_vel.linear.x = self.max_linear_vel 
                     # Rotate to align with goal orientation
                     # elif dist < self.position_deadband and abs(current_rpy[2] - dest_rpy[2]) < self.orientation_deadband and not self.at_rest:
                     #     print("Aligning with desintation orientation")
@@ -77,7 +78,9 @@ class CrosswalkController():
                         if not self.at_rest:
                             self.last_reached_dest_time = rospy.Time.now()
                             self.at_rest = True
-                        elif rospy.Time.now() - self.last_reached_dest_time > rospy.Duration(3) and self.at_rest:
+                            self.WAIT_TIME_s = random.uniform(1, 2.5)
+                            self.max_linear_vel = random.uniform(0.5, 1)
+                        elif rospy.Time.now() - self.last_reached_dest_time > rospy.Duration(self.WAIT_TIME_s) and self.at_rest:
                             self.at_rest = False
                             self.pose_goal_buffer[0], self.pose_goal_buffer[-1] = self.pose_goal_buffer[-1], self.pose_goal_buffer[0]
                             self.pose_goal = self.pose_goal_buffer[0]
