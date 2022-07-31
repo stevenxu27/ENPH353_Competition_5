@@ -11,7 +11,7 @@ The repository contains the following ROS packages:
 | adeept_awr_ros_driver | controls real world Adeept AWR robot |
 
 ## Installation instructions:
-** Prerequisites: Ubuntu 18.04 with ROS Melodic installed **
+** Prerequisites: Ubuntu 20.04 with ROS Noetic installed **
 
 * If you **do not** have a workspace already create one in your home directory.
 ```
