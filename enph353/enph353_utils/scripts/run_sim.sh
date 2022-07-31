@@ -29,7 +29,7 @@ then
 	DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
 	RELATIVE_PATH="/../../enph353_gazebo/scripts/plate_generator.py"
 	FULL_PATH=".$RELATIVE_PATH"
-	python $FULL_PATH
+	python3 $FULL_PATH
 fi
 
 if $label_plates = 'true'
