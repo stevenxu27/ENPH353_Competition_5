@@ -26,7 +26,7 @@ git clone https://github.com/ENPH353/2022_competition.git
 
 * Build the packages
 ```
-roscd; cd ..
+cd ~/ros_ws
 catkin_make
 ```
 
