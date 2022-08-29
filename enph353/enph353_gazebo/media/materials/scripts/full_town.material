@@ -5,7 +5,7 @@ material full_town{
         {
             texture_unit
             {
-                texture single_lane_8parking_circle.png
+                texture single_lane_8parking_offroad_circle_45d.png
             }
         }   
     }

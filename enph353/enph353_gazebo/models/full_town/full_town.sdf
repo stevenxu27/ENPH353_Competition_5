@@ -1,6 +1,7 @@
 <?xml version="1.0"?>
 <sdf version="1.4">
 <model name="full_town">
+  <pose>0 0 0 0 0 -1.5708</pose>
   <static>true</static>
     <link name="link">
       <collision name="collision">
