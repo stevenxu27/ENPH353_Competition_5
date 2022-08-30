@@ -134,7 +134,7 @@
     <include>
       <uri>model://car3</uri>
       <static>true</static>
-      <pose>0.631 1.027 0.04 0.0 0.0 4.71</pose>
+      <pose>0.631 1.059 0.1 0.0 0.0 4.71</pose>
     </include>
     <include>
       <uri>model://car4</uri>
@@ -292,7 +292,7 @@
     <!-- TREES END -->
     <gui>
       <camera name="user_camera">
-        <pose>0.0 0.0 4.0 0.0 1.57 0.0</pose>
+        <pose>0.0 0.0 5.0 0.0 1.57 0.0</pose>
       </camera>
     </gui>
     <!-- 

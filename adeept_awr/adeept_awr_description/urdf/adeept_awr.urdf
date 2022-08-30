@@ -1,5 +1,6 @@
 <?xml version="1.0"?>
 <robot name="adeept_awr">
+
 <!-- Chassis -->
   <link name="chassis">
     <origin xyz = "0.0 0.0 0.055"/>
@@ -19,6 +20,7 @@
       <inertia ixx="0.00009565" ixy="0.0" ixz="0" iyy="0.0003999" iyz="0.0" izz="0.0004892"/>
     </inertial-->
   </link>
+
   <!-- Camera -->
   <joint name="camera_joint" type="fixed">
     <origin xyz="0.07 0.0 0.03" rpy="0 0 0"/>
@@ -62,10 +64,12 @@
     </collision>
     <inertial>
       <origin xyz = "0.0 0.0 0.0"/>
-      <mass value="0.230"/>
+      <mass value="0.005"/>
       <inertia ixx="0.00009435" ixy="0.0" ixz="0" iyy="0.00001117" iyz="0.0" izz="0.0000148"/>
     </inertial>
   </link>
+
+  <!-- Wheels -->
   <link name="front_left_wheel">
     <visual>
       <origin xyz="0.0 0.0125 0.0" rpy="1.5708 0 0"/>
@@ -142,6 +146,8 @@
       <inertia ixx="0.00001044" ixy="0.0" ixz="0" iyy="0.00001767" iyz="0.0" izz="0.00001044"/>
     </inertial>
   </link>
+
+  <!-- Joints -->
   <joint name = "battery_mount" type="fixed">
     <parent link = "chassis"/>
     <child link = "battery"/>
@@ -179,6 +185,8 @@
     <limit effort = "0.0784532" velocity="1.55"/>
     <dynamics friction="0.04"/>
   </joint>
+
+  <!-- Gazebo -->
   <gazebo reference="front_right_wheel">
     <mu1>0.8693</mu1>
     <mu2>0.8693</mu2>
