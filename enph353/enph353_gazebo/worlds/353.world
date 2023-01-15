@@ -119,12 +119,12 @@
     <include>
       <uri>model://car0</uri>
       <static>true</static>
-      <pose>-0.631 -1.041 0.04 0.0 0.0 1.57</pose>
+      <pose>-1.427 -0.623 0.04 0.0 0.0 0.0</pose>
     </include>
     <include>
       <uri>model://car1</uri>
       <static>true</static>
-      <pose>0.631 -1.467 0.04 0.0 0.0 1.57</pose>
+      <pose>-0.631 -1.041 0.04 0.0 0.0 1.57</pose>
     </include>
     <include>
       <uri>model://car2</uri>

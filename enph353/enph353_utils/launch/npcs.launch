@@ -5,12 +5,12 @@
 		<group ns="P1">
 			<param name="tf_prefix" value="P1_tf" />
 			<include file="$(find enph353_npcs)/launch/pedestrian.launch">
-				<arg name="init_pose" value="-x -1 -y -0.63 -z 0.03 -R 0.0 -P 0.0 -Y 1.57" />
+				<arg name="init_pose" value="-x 0.626 -y -1.0 -z 0.03 -R 0.0 -P 0.0 -Y 1.57" />
 				<arg name="robot_name"  value="P1" />
-				<arg name="pose_a_x" value="-1"/>
-				<arg name="pose_a_y" value="-0.63"/>
-				<arg name="pose_b_x" value="-1.44"/>
-				<arg name="pose_b_y" value="-0.63"/>
+				<arg name="pose_a_x" value="0.626"/>
+				<arg name="pose_a_y" value="-1.0"/>
+				<arg name="pose_b_x" value="0.626"/>
+				<arg name="pose_b_y" value="-1.5"/>
 			</include>
 		</group>
 
