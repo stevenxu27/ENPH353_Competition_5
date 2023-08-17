@@ -5,7 +5,7 @@ material full_town{
         {
             texture_unit
             {
-                texture single_lane_8parking_offroad_circle_45d.png
+                texture 2023_Competition_Driving_Surface_v0.1.png
             }
         }   
     }
