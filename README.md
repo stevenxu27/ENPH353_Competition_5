@@ -1,4 +1,4 @@
-# 2022 UBC Parking competition
+# 2023 UBC Parking competition [IN PROGRESS]
 
 The repository contains the following ROS packages:
 
