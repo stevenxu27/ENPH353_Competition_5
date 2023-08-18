@@ -130,7 +130,7 @@
    </row>
    <column>
     <property name="text">
-     <string>Location</string>
+     <string>Entry</string>
     </property>
     <property name="font">
      <font>
@@ -140,7 +140,7 @@
    </column>
    <column>
     <property name="text">
-     <string>Plate ID</string>
+     <string>Value</string>
     </property>
    </column>
    <column>
@@ -155,7 +155,7 @@
    </column>
    <item row="0" column="0">
     <property name="text">
-     <string>P1</string>
+     <string>Size</string>
     </property>
    </item>
    <item row="0" column="1">
@@ -175,7 +175,7 @@
    </item>
    <item row="1" column="0">
     <property name="text">
-     <string>P2</string>
+     <string>Victims</string>
     </property>
    </item>
    <item row="1" column="1">
@@ -195,7 +195,7 @@
    </item>
    <item row="2" column="0">
     <property name="text">
-     <string>P3</string>
+     <string>Crime</string>
     </property>
    </item>
    <item row="2" column="1">
@@ -215,7 +215,7 @@
    </item>
    <item row="3" column="0">
     <property name="text">
-     <string>P4</string>
+     <string>DateTime</string>
     </property>
    </item>
    <item row="3" column="1">
@@ -235,7 +235,7 @@
    </item>
    <item row="4" column="0">
     <property name="text">
-     <string>P5</string>
+     <string>Motive</string>
     </property>
    </item>
    <item row="4" column="1">
@@ -255,7 +255,7 @@
    </item>
    <item row="5" column="0">
     <property name="text">
-     <string>P6</string>
+     <string>Location</string>
     </property>
    </item>
    <item row="5" column="1">
@@ -275,7 +275,7 @@
    </item>
    <item row="6" column="0">
     <property name="text">
-     <string>P7</string>
+     <string>Weapon</string>
     </property>
    </item>
    <item row="6" column="1">
@@ -295,7 +295,7 @@
    </item>
    <item row="7" column="0">
     <property name="text">
-     <string>P8</string>
+     <string>Criminal</string>
     </property>
    </item>
    <item row="7" column="1">
@@ -495,8 +495,8 @@
     <string>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
 &lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
 p, li { white-space: pre-wrap; }
-&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'Ubuntu'; font-size:8pt; font-weight:400; font-style:normal;&quot;&gt;
-&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-family:'Noto Sans';&quot;&gt;&lt;br /&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'Noto Sans'; font-size:8pt; font-weight:400; font-style:normal;&quot;&gt;
+&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;br /&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
    </property>
   </widget>
   <widget class="QLabel" name="team_ID_label_QL">

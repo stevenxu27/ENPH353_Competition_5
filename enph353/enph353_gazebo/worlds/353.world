@@ -45,17 +45,17 @@
     <include>
       <uri>model://car0</uri>
       <static>true</static>
-      <pose>-1.427 -0.623 0.04 0.0 0.0 0.0</pose>
+      <pose>8.8 0.22 0.04 0 0 -1.57</pose>
     </include>
     <include>
       <uri>model://car1</uri>
       <static>true</static>
-      <pose>-0.631 -1.041 0.04 0.0 0.0 1.57</pose>
+      <pose>7.6 -0.22 0.04 0 0 -1.57</pose>
     </include>
     <include>
       <uri>model://car2</uri>
       <static>true</static>
-      <pose>1.03 -0.623 0.04 0.0 0.0 3.14</pose>
+      <pose>4.5 -0.3 0.04 0.0 0</pose>
     </include>
     <include>
       <uri>model://car3</uri>
@@ -85,7 +85,7 @@
     <include>
       <uri>model://car_muscle</uri>
       <static>true</static>
-      <pose>1.5 1 0.0 0.0 0.0 0.0</pose>
+      <pose>5.7 0.7 0 0 0 1.57</pose>
     </include>
     <!-- PARKED CARS END-->
     
@@ -93,7 +93,7 @@
     <include>
       <uri>model://tree_misc</uri>
       <static>true</static>
-      <pose> 0 0 0 0 0 0</pose>
+      <pose> 2.75 0 0.01 0 0 0</pose>
     </include>
     <include>
       <uri>model://tree_oak</uri>
@@ -216,9 +216,10 @@
       <pose> 0 1.55 0 0 0 0</pose>
     </include>
     <!-- TREES END -->
+
     <gui>
       <camera name="user_camera">
-        <pose>0.0 0.0 5.0 0.0 1.57 0.0</pose>
+        <pose>-17.0 0.0 5.5 0.0 0.35 0.0</pose>
       </camera>
     </gui>
     <!-- 
