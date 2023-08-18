@@ -13,107 +13,33 @@
     	</sky>
       <shadows>0</shadows>
     </scene>
+
+    <!-- WALLS START -->
     <include>
     	<uri>model://wall</uri>
     	<name>north_wall</name>
-    	<pose>1.55 0 0.25 0 0 1.57</pose>
+    	<pose>10 0 0.25 0 0 1.57</pose>
     	<static>true</static>
     </include>
     <include>
     	<uri>model://wall</uri>
     	<name>south_wall</name>
-    	<pose>-1.55 0 0.25 0 0 1.57</pose>
+    	<pose>-10 0 0.25 0 0 1.57</pose>
     	<static>true</static>
     </include>
     <include>
-    	<uri>model://wall</uri>
+    	<uri>model://wall_side</uri>
     	<name>east_wall</name>
-    	<pose>0 -1.55 0.25 0 0 0</pose>
+    	<pose>0 -1 0.25 0 0 0</pose>
     	<static>true</static>
     </include>
     <include>
-    	<uri>model://wall</uri>
+    	<uri>model://wall_side</uri>
     	<name>west_wall</name>
-    	<pose>0 1.55 0.25 0 0 0</pose>
+    	<pose>0 1 0.25 0 0 0</pose>
     	<static>true</static>
     </include>
-
-    <!-- ROAD SIGNS START -->
-    <!--
-    <include>
-      <uri>model://sign_left_turn</uri>
-      <name>Sign_left0</name>
-      <static>true</static>
-      <pose>1.422 -0.246 0 0 0 3.141592</pose>
-    </include>
-    <include>
-      <uri>model://sign_left_turn</uri>
-      <name>Sign_left1</name>
-      <static>true</static>
-      <pose>-1.422 0.246 0 0 0 0</pose>
-    </include>
-    <include>
-      <uri>model://sign_left_turn</uri>
-      <name>Sign_left2</name>
-      <static>true</static>
-      <pose>-0.86 -0.2 0 0 0 1.57</pose>
-    </include>
-    <include>
-      <uri>model://sign_left_turn</uri>
-      <name>Sign_left3</name>
-      <static>true</static>
-      <pose>0.86 0.2 0 0 0 -1.57</pose>
-    </include>
-    <include>
-      <uri>model://sign_right_turn</uri>
-      <name>Sign_right0</name>
-      <static>true</static>
-      <pose>1.058 0.246 0 0 0 0</pose>
-    </include>
-    <include>
-      <uri>model://sign_right_turn</uri>
-      <name>Sign_right1</name>
-      <static>true</static>
-      <pose>-1.058 -0.246 0 0 0 3.141592</pose>
-    </include>
-    <include>
-      <uri>model://sign_left_right_turn</uri>
-      <name>Sign_left_right0</name>
-      <static>true</static>
-      <pose>0.18 1 0 0 0 3.141592</pose>
-    </include>
-    <include>
-      <uri>model://sign_left_right_turn</uri>
-      <name>Sign_left_right1</name>
-      <static>true</static>
-      <pose>-0.18 -1 0 0 0 0</pose>
-    </include>
-    <include>
-      <uri>model://sign_straight</uri>
-      <name>Sign_straight0</name>
-      <static>true</static>
-      <pose>-0.45 -0.25 0 0 0 3.141592</pose>
-    </include>
-    <include>
-      <uri>model://sign_straight</uri>
-      <name>Sign_straight1</name>
-      <static>true</static>
-      <pose>0.45 0.25 0 0 0 0</pose>
-    </include>
-    <include>
-      <uri>model://sign_straight_left_turn</uri>
-      <name>Sign_straight_left0</name>
-      <static>true</static>
-      <pose>0.332 -0.441 0 0 0 -0.7854</pose>
-    </include>
-    <include>
-      <uri>model://sign_straight_left_turn</uri>
-      <name>Sign_straight_left1</name>
-      <static>true</static>
-      <pose>-0.332 0.441 0 0 0 2.3562</pose>
-    </include>
-    -->
-    <!-- ROAD SIGNS END -->
+    <!-- WALLS END -->
 
     <!-- PARKED CARS START -->
     <include>
