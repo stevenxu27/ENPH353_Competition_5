@@ -3,7 +3,14 @@
   <world name="default">
     <include>
       <uri>model://full_town</uri>
+      <static>true</static>
     </include>
+    <include>
+      <uri>model://tunnel</uri>
+      <pose>-6.75 0.675 0.157 0 0 0</pose>
+    	<static>true</static>
+    </include>
+
     <include>
       <uri>model://sun</uri>
     </include>

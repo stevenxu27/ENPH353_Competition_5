@@ -123,6 +123,11 @@ class Window(QtWidgets.QMainWindow):
         self.log_msg("Message received: {}".format(license_string))
 
         teamID, teamPswd, plateLocation, plateID = str(license_string).split(',')
+
+        # Check out of bounds plate location
+        if int(plateLocation) < -1 or int(plateLocation) > 8:
+            self.log_msg("Invalid plate location: {}".format(plateLocation))
+            return
         
         # Use to start the timer and register the team name (not for points)
         if plateLocation == '0':
@@ -149,17 +154,13 @@ class Window(QtWidgets.QMainWindow):
 
         plateLocation = int(plateLocation)
 
-        # Check out of bounds plate location
-        if plateLocation < -1 or plateLocation > 8:
-            self.log_msg("Invalid plate location: {}".format(plateLocation))
-            return
-
         # Check submitted license plate ID and location against gnd truth:
         self.license_scores_QTW.blockSignals(True)
         self.license_scores_QTW.item(plateLocation-1, 2).setText(plateID)
         gndTruth = str(self.license_scores_QTW.item(plateLocation-1, 1).text())
         self.license_scores_QTW.blockSignals(False)
 
+        # Manual control results in half the points per guess being awarded:
         manual_control_factor = 1
         if self.manual_control_QPB.isChecked():
             manual_control_factor = 0.5
@@ -174,8 +175,11 @@ class Window(QtWidgets.QMainWindow):
             self.log_msg("Awarded: {} pts".format(points_awarded))
             self.license_scores_QTW.item(plateLocation-1, 3).setText(str(points_awarded))
         else:
+            # otherwise deduct the points awarded (set them to 0)
             self.log_msg("Awarded: {} pts".format(0))
             self.license_scores_QTW.item(plateLocation-1, 3).setText(str(0))
+        
+        self.update_story_line()
 
 
     def SLOT_penalties_changed(self):
@@ -208,6 +212,7 @@ class Window(QtWidgets.QMainWindow):
         
         self.penalties_scores_QTW.item(0, 1).setText(str(numEvents))
 
+
     def SLOT_timer_update(self):
         ROUND_DURATION_s = 240
         self.elapsed_time_s += 1
@@ -220,6 +225,7 @@ class Window(QtWidgets.QMainWindow):
                 format(sim_time_s, self.elapsed_time_s))
             self.timer.stop()
 
+
     def start_timer(self):
         self.elapsed_time_s = 0
         self.sim_start_time_s = rospy.get_time()
@@ -228,12 +234,14 @@ class Window(QtWidgets.QMainWindow):
         self.timer.start(1000)
         self.log_msg("Timer started.")
 
+
     def stop_timer(self):
         self.sim_current_time_s = rospy.get_time()
         sim_time_s = self.sim_current_time_s - self.sim_start_time_s
         self.log_msg("Timer stopped: {}sec sim time (real time: {}sec).".
                 format(sim_time_s, self.elapsed_time_s))
         self.timer.stop()
+
 
     def update_license_total(self):
         licenseTotal = 0
@@ -256,6 +264,7 @@ class Window(QtWidgets.QMainWindow):
         penaltyPerEvent   = int(self.penalties_scores_QTW.item(0, 2).text())
         penaltyVehicle    = numEvents * penaltyPerEvent
         self.penalties_scores_QTW.item(0, 3).setText(str(penaltyVehicle))
+
         #update pedestrian penalties total:
         numEvents         = int(self.penalties_scores_QTW.item(1, 1).text())
         penaltyPerEvent   = int(self.penalties_scores_QTW.item(1, 2).text())
@@ -278,6 +287,13 @@ class Window(QtWidgets.QMainWindow):
         self.log_msg("Team total: {} pts".format(teamTotal))
 
         self.penalties_scores_QTW.blockSignals(False)
+
+
+    def update_story_line(self):
+        inspector = self.team_ID_value_QL.text()
+        story = "Detective {} received a message about a new crime in Linear City.".format(inspector)
+
+        self.story_line_value_QTE.append(story)
 
 
 if __name__ == "__main__":

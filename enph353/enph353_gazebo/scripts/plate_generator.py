@@ -11,34 +11,28 @@ import string
 from random import randint
 from PIL import Image, ImageFont, ImageDraw
 
-'''
-* 1. Criminal (10pts): Einstein, Eintoine, DR DRE, YODA, Shrek, Luigi, Mario
-* 2. Weapons (5 pts): a fishing rod, rocket, antimatter,
-* 3. Location (5 pts): hospital, mall, forest
-* 4. Motive: gluttony, curiosity, 
-* 5. DateTime: dawn, dusk, midnight, midday,
-* 6. Crime: steal, trespass, lie to
-* 7. Victim: parrots, robots, people, dogs, jedi, 
-* 8. Victims number: 5, 10, 100
-'''
-
-entries = {'criminals': ["EINSTEIN", "YODA", "SHREK", "LUIGI"],
-           'weapons': ["A FISHING ROD", "ROCKET", "ANTIMATTER"],
+entries = {'size': ['TWO', 'A DOZEN', 'BUSY BEAVER 10'],
+           'victim': ["PARROTS", "ROBOTS", "BACTERIA", "JEDIS"],
+           'crime': ["STEAL", "TRESPASS", "LIE TO", "DESTROY"],
+           'time': ["NOON", "MIDNIGHT", "DAWN", "DUSK", "64M YRS AGO"],
            'location': ["HOSPITAL", "MALL", "FOREST", "MOON"],
-           'motive': ["GLUTTONY", "CURIOSITY", "IGNORANCE"]}
+           'motive': ["GLUTTONY", "CURIOSITY", "IGNORANCE"],
+           'weapon': ["A FISHING ROD", "ROCKET", "ANTIMATTER"],
+           'criminal': ["EINSTEIN", "YODA", "SHREK", "LUIGI"]
+           }
 
 # Find the path to this script
-path = os.path.dirname(os.path.realpath(__file__)) + "/"
-texture_path = '../media/materials/textures/'
+SCRIPT_PATH = os.path.dirname(os.path.realpath(__file__)) + "/"
+TEXTURE_PATH = '../media/materials/textures/'
 
 # write plates to plates.csv
-with open(path + "plates.csv", 'w') as plates_file:
+with open(SCRIPT_PATH + "plates.csv", 'w') as plates_file:
     csvwriter = csv.writer(plates_file)
 
     i = 0
     for key in entries:
         # pick a random criminal
-        j = random.randint(0, len(entries[key]))
+        j = random.randint(0, len(entries[key])-1)
         plate = entries[key][j]
 
         plate_str = plate
@@ -46,7 +40,7 @@ with open(path + "plates.csv", 'w') as plates_file:
         csvwriter.writerow([plate_str])
 
         # Generate plate
-        blank_plate = cv2.imread(path+'blank_plate.png')
+        blank_plate = cv2.imread(SCRIPT_PATH+'blank_plate.png')
 
         # To use monospaced font for the license plate we need to use the PIL
         # package.
@@ -72,7 +66,7 @@ with open(path + "plates.csv", 'w') as plates_file:
          # Merge images and save
         unlabelled = np.concatenate((255 * np.ones(shape=[600, 600, 3],
                                     dtype=np.uint8), spot_w_plate), axis=0)
-        cv2.imwrite(os.path.join(path+texture_path+"unlabelled/",
+        cv2.imwrite(os.path.join(SCRIPT_PATH+TEXTURE_PATH+"unlabelled/",
                                  "plate_" + str(i) + ".png"), unlabelled)
         i += 1
 
