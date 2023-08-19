@@ -7,8 +7,8 @@
         <pose>0 0 0 0 0 -1.57</pose>
         <geometry>
           <mesh>
-            <uri>model://full_town/meshes/Terrain_2.dae</uri>
-            <scale>20.0 20.0 20.0</scale>
+            <uri>model://full_town/meshes/Terrain_2023_v2.dae</uri>
+            <scale>12.0 12.0 12.0</scale>
             <normal>0 0 1</normal>
           </mesh>
         </geometry>
@@ -26,8 +26,8 @@
         <cast_shadows>false</cast_shadows>
         <geometry>
           <mesh>
-            <uri>model://full_town/meshes/Terrain_2.dae</uri>
-            <scale>20.0 20.0 20.0</scale>
+            <uri>model://full_town/meshes/Terrain_2023_v2.dae</uri>
+            <scale>12.0 12.0 12.0</scale>
             <normal>0 0 1</normal>
           </mesh>
         </geometry>
