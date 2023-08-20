@@ -92,7 +92,7 @@
     <include>
       <uri>model://car_muscle</uri>
       <static>true</static>
-      <pose>5.7 0.7 0 0 0 1.57</pose>
+      <pose>-4.14 -2.56 0 0 0 1.57</pose>
     </include>
     <!-- PARKED CARS END-->
     
