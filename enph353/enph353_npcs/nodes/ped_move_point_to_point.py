@@ -7,6 +7,7 @@ import rospy
 from geometry_msgs.msg import Twist, PoseStamped, Pose
 from tf.transformations import euler_from_quaternion
 from gazebo_msgs.msg import ModelStates
+
 class CrosswalkController():
 
     def __init__(self):
@@ -29,8 +30,8 @@ class CrosswalkController():
         self.pose_goal = self.pose_goal_buffer[0]
 
         self.max_angular_vel = 2
-        self.max_linear_vel = random.uniform(0.5, 1)
-        self.WAIT_TIME_s = random.uniform(0.5, 2)
+        self.max_linear_vel = random.uniform(0.2, 0.8)
+        self.WAIT_TIME_s = random.uniform(1, 3)
         self.at_rest = False
         self.last_reached_dest_time = rospy.Time.now()
 
