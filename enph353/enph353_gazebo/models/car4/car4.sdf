@@ -18,14 +18,14 @@
       <pose>0 0 0.04 0 0 0</pose>
       <geometry>
         <box>
-          <size>0.1 0.2 0.08</size>
+          <size>0.2 0.01 0.16</size>
         </box>
       </geometry>
     </collision>
     <visual name='visual'>
       <geometry>
         <box>
-          <size>0.1 0.2 0.08</size>
+          <size>0.2 0.01 0.16</size>
         </box>
       </geometry>
         <material>
@@ -37,7 +37,7 @@
     </visual>
   </link>
   <link name='plate'>
-    <pose>0 0.105 0 0 0 0</pose>
+    <pose>0 0.01 0.02 0 0 0</pose>
     <inertial>
       <inertia>
         <ixx>1e6</ixx>
@@ -60,7 +60,7 @@
     <visual name='visual'>
       <geometry>
         <box>
-          <size>0.06 1e-4 0.08</size>
+          <size>0.15 1e-4 0.1</size>
         </box>
       </geometry>
       <material>
