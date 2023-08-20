@@ -8,6 +8,7 @@ import random
 from geometry_msgs.msg import Twist, PoseStamped, Pose
 from tf.transformations import euler_from_quaternion
 from gazebo_msgs.msg import ModelStates
+
 class VehicleController():
 
     def __init__(self):

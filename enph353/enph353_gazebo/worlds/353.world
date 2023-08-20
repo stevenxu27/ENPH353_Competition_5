@@ -25,25 +25,25 @@
     <include>
     	<uri>model://wall</uri>
     	<name>north_wall</name>
-    	<pose>7.5 0 0.25 0 0 1.57</pose>
+    	<pose>6 0 0.25 0 0 1.57</pose>
     	<static>true</static>
     </include>
     <include>
     	<uri>model://wall</uri>
     	<name>south_wall</name>
-    	<pose>-7.5 0 0.25 0 0 1.57</pose>
+    	<pose>-6 0 0.25 0 0 1.57</pose>
     	<static>true</static>
     </include>
     <include>
     	<uri>model://wall_side</uri>
     	<name>east_wall</name>
-    	<pose>0 -3.46 0.25 0 0 0</pose>
+    	<pose>0 -2.75 0.25 0 0 0</pose>
     	<static>true</static>
     </include>
     <include>
     	<uri>model://wall_side</uri>
     	<name>west_wall</name>
-    	<pose>0 3.46 0.25 0 0 0</pose>
+    	<pose>0 -2.75 0.25 0 0 0</pose>
     	<static>true</static>
     </include>
     <!-- WALLS END -->
@@ -52,42 +52,42 @@
     <include>
       <uri>model://car0</uri>
       <static>true</static>
-      <pose>8.8 0.22 0.04 0 0 -1.57</pose>
+      <pose>5.5 1 0.04 0 0 0</pose>
     </include>
     <include>
       <uri>model://car1</uri>
       <static>true</static>
-      <pose>7.6 -0.22 0.04 0 0 -1.57</pose>
+      <pose>4.3 -0.75 0.04 0 0 0</pose>
     </include>
     <include>
       <uri>model://car2</uri>
       <static>true</static>
-      <pose>4.5 -0.3 0.04 0.0 0</pose>
+      <pose>4 -2 0.04 0 0 -1.57</pose>
     </include>
     <include>
       <uri>model://car3</uri>
       <static>true</static>
-      <pose>0.631 1.059 0.1 0.0 0.0 4.71</pose>
+      <pose>1 -2.25 0.1 0.0 0.0 -1.57</pose>
     </include>
     <include>
       <uri>model://car4</uri>
       <static>true</static>
-      <pose>-0.631 1.027 0.04 0.0 0.0 4.71</pose>
+      <pose>0.83 1.50 0.04 0 0 0</pose>
     </include>
     <include>
       <uri>model://car5</uri>
       <static>true</static>
-      <pose>-1.03 0.607 0.04 0.0 0.0 0.0</pose>
+      <pose>-3.41 1.71 0.04 0 0 -1.57</pose>
     </include>
     <include>
       <uri>model://car6</uri>
       <static>true</static>
-      <pose>0.0 0.4 0.04 0.0 0.0 1.57</pose>
+      <pose>-3.8 -1.9 0.04 0 0 1.57</pose>
     </include>
     <include>
       <uri>model://car7</uri>
       <static>true</static>
-      <pose>0.0 -0.4 0.04 0.0 0.0 -1.57</pose>
+      <pose>-0.9 -1.2 1.86 0 0 1.57</pose>
     </include>
     <include>
       <uri>model://car_muscle</uri>
@@ -100,67 +100,68 @@
     <include>
       <uri>model://tree_misc</uri>
       <static>true</static>
-      <pose> 3.41 0 0.01 0 0 0</pose>
+      <pose> 2.5 -1.5 0 0 0 0</pose>
     </include>
+
     <include>
       <uri>model://tree_oak</uri>
       <name>tree_oak_01</name>
       <static>true</static>
-      <pose> 0.94 0.31 0 0 0 0</pose>
+      <pose> 2.8 0.4 0 0 0 0</pose>
     </include>
     <include>
       <uri>model://tree_oak</uri>
       <name>tree_oak_02</name>
       <static>true</static>
-      <pose> -0.94 -0.31 0 0 0 0</pose>
+      <pose> 3 1 0 0 0 0</pose>
     </include>
     <include>
       <uri>model://tree_oak</uri>
       <name>tree_oak_03</name>
       <static>true</static>
-      <pose> -0.94 0.31 0 0 0 0</pose>
+      <pose> 3 2 0 0 0 0</pose>
     </include>
     <include>
       <uri>model://tree_oak</uri>
       <name>tree_oak_04</name>
       <static>true</static>
-      <pose> 0.94 -0.31 0 0 0 0</pose>
+      <pose> 2.8 2.5 0 0 0 0</pose>
     </include>
        <include>
       <uri>model://tree_oak</uri>
       <name>tree_oak_05</name>
       <static>true</static>
-      <pose> -0.26 0.92 0 0 0 0</pose>
+      <pose> 1 1 0 0 0 0</pose>
     </include>
    <include>
       <uri>model://tree_oak</uri>
       <name>tree_oak_06</name>
       <static>true</static>
-      <pose> -0.26 -0.92 0 0 0 0</pose>
+      <pose> 2 1 0 0 0 0</pose>
     </include>
     <include>
       <uri>model://tree_oak</uri>
       <name>tree_oak_07</name>
       <static>true</static>
-      <pose> 0.26 -0.92 0 0 0 0</pose>
+      <pose> 2 1.8 0 0 0</pose>
     </include>
     <include>
       <uri>model://tree_oak</uri>
       <name>tree_oak_08</name>
       <static>true</static>
-      <pose> 0.26 0.92 0 0 0 0</pose>
+      <pose> 1 1.8 0 0 0</pose>
     </include>
     <include>
       <uri>model://tree_oak</uri>
       <name>tree_oak_09</name>
       <static>true</static>
-      <pose> 0.92 0.92 0 0 0 0</pose>
+      <pose> 0.2 0.8 0 0 0 0</pose>
     </include>
     <include>
       <uri>model://tree_oak</uri>
       <name>tree_oak_10</name>
       <static>true</static>
-      <pose> -0.92 0.92 0 0 0 0</pose>
+      <pose> 0 2 0 0 0 0</pose>
     </include>
         <include>
       <uri>model://tree_oak</uri>
@@ -174,60 +175,74 @@
       <static>true</static>
       <pose> -0.92 -0.92 0 0 0 0</pose>
     </include>
+
     <include>
       <uri>model://tree_fir</uri>
       <name>fir_tree_01</name>
       <static>true</static>
-      <pose> 11.9 0.45 0 0 0 0</pose>
+      <pose> 5 2.0 0 0 0 0</pose>
     </include>
     <include>
       <uri>model://tree_fir</uri>
       <name>fir_tree_02</name>
       <static>true</static>
-      <pose> 11.23 -0.49 0 0 0 0</pose>
+      <pose> 4.2 1.4 0 0 0</pose>
     </include>
     <include>
       <uri>model://tree_fir</uri>
       <name>fir_tree_03</name>
       <static>true</static>
-      <pose> 9.56 0.48 0 0 0 0</pose>
+      <pose> 5 0.9 0 0 0</pose>
     </include>
     <include>
       <uri>model://tree_fir</uri>
       <name>fir_tree_04</name>
       <static>true</static>
-      <pose> 8.16 0.21 0 0 0 0</pose>
+      <pose> 5 0 0 0 0 0</pose>
     </include>
     <include>
       <uri>model://tree_fir</uri>
       <name>fir_tree_05</name>
       <static>true</static>
-      <pose> 7.40 -0.48 0 0 0 0</pose>
+      <pose> 4.1 -0.3 0 0 0 0</pose>
     </include>
     <include>
       <uri>model://tree_fir</uri>
       <name>fir_tree_06</name>
       <static>true</static>
-      <pose> 6.40 -0.31 0 0 0 0</pose>
+      <pose> 5 -1.8 0 0 0 0</pose>
     </include>
     <include>
       <uri>model://tree_fir</uri>
       <name>fir_tree_07</name>
       <static>true</static>
-      <pose> -1.55 1.55 0 0 0 0</pose>
+      <pose> 5 -0.9 0 0 0 0</pose>
     </include>
     <include>
       <uri>model://tree_fir</uri>
       <name>fir_tree_08</name>
       <static>true</static>
-      <pose> 0 1.55 0 0 0 0</pose>
+      <pose> 1 -1.8 0 0 0 0</pose>
+    </include>
+
+    <include>
+      <uri>model://cactus</uri>
+      <name>cactus_01</name>
+      <static>true</static>
+      <pose> -5 -0 -0.02 0 0 1.57</pose>
     </include>
     <!-- TREES END -->
 
+    <include>
+      <uri>model://baby_yoda</uri>
+      <name>baby_yoda_01</name>
+      <static>true</static>
+      <pose> -1 -0.9 1.8 0 0 0</pose>
+    </include>
+
     <gui>
       <camera name="user_camera">
-        <!-- <pose>-17.0 0.0 5.5 0.0 0.35 0.0</pose> view from the mountain end -->
-        <pose>-1.5 0.25 2 0 0.4 -3.14</pose> <!-- view from the tunnel up the mountain-->
+        <pose>0 0 12 0 1.57 -1.57</pose> <!-- god view -->
       </camera>
     </gui>
     <!-- 
