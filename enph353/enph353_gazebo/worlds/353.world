@@ -21,6 +21,13 @@
       <shadows>0</shadows>
     </scene>
 
+    <include>
+      <uri>model://water_block</uri>
+      <name>water_block</name>
+      <pose>-1.56 1.64 -0.15 0 0 0</pose>
+      <static>true</static>
+    </include>
+
     <!-- WALLS START -->
     <include>
     	<uri>model://wall</uri>
@@ -52,22 +59,22 @@
     <include>
       <uri>model://car0</uri>
       <static>true</static>
-      <pose>5.5 1 0.04 0 0 0</pose>
+      <pose>5.81 1.64 0.04 0 0 0</pose>
     </include>
     <include>
       <uri>model://car1</uri>
       <static>true</static>
-      <pose>4.3 -0.75 0.04 0 0 0</pose>
+      <pose>5.16 -1.35 0.04 0 0 0</pose>
     </include>
     <include>
       <uri>model://car2</uri>
       <static>true</static>
-      <pose>4 -2 0.04 0 0 -1.57</pose>
+      <pose>4.00 -1.67 0.04 0 0 -1.57</pose>
     </include>
     <include>
       <uri>model://car3</uri>
       <static>true</static>
-      <pose>1 -2.25 0.1 0.0 0.0 -1.57</pose>
+      <pose>0.83 -0.54 0.04 0 0 3.14</pose>
     </include>
     <include>
       <uri>model://car4</uri>
@@ -82,7 +89,7 @@
     <include>
       <uri>model://car6</uri>
       <static>true</static>
-      <pose>-3.8 -1.9 0.04 0 0 1.57</pose>
+      <pose>-3.80 -2.01 0.04 0 0 1.57</pose>
     </include>
     <include>
       <uri>model://car7</uri>
