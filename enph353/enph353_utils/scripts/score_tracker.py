@@ -21,7 +21,7 @@ class Window(QtWidgets.QMainWindow):
         super(Window, self).__init__()
         loadUi("./score_tracker.ui", self)
 
-        pixmap = QPixmap('ENPH_vs_UBC_Parking.svg')
+        pixmap = QPixmap('FIZZ_CLUE.svg')
         self.label_QL.setPixmap(pixmap)
 
         # Populate log file name
@@ -32,6 +32,7 @@ class Window(QtWidgets.QMainWindow):
         self.log_file_value_QL.setText(self.log_file_path)
 
         # Populate tables
+        # @sa plate_generator.py: this is where the plates.csv is generated
         LICENSE_PLATE_FILE = '/../../enph353_gazebo/scripts/plates.csv'
         SCRIPT_FILE_PATH = os.path.dirname(os.path.realpath(__file__))
         with open(SCRIPT_FILE_PATH + LICENSE_PLATE_FILE, "r") as plate_file:
@@ -39,8 +40,8 @@ class Window(QtWidgets.QMainWindow):
             i=0
             for row in platereader:
                 if i < NUM_LOCATIONS:
-                    self.license_scores_QTW.item(i, 1).setText(row[0])
-                    self.log_msg("Position {}: {}".format(i+1, row[0]))
+                    self.license_scores_QTW.item(i, 1).setText(row[1])
+                    self.log_msg("Clue {}: {}".format(row[0], row[1]))
                 else:
                     break
                 i += 1

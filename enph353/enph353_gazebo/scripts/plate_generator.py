@@ -11,14 +11,14 @@ import string
 from random import randint
 from PIL import Image, ImageFont, ImageDraw
 
-entries = {'SIZE': ['TWO', 'A DOZEN', 'BUSY BEAVER 10'],
-           'VICTIM': ["PARROTS", "ROBOTS", "BACTERIA", "JEDIS"],
-           'CRIME': ["STEAL", "TRESPASS", "LIE TO", "DESTROY"],
-           'TIME': ["NOON", "MIDNIGHT", "DAWN", "DUSK", "64M YRS AGO"],
-           'PLACE': ["HOSPITAL", "MALL", "FOREST", "MOON"],
-           'MOTIVE': ["GLUTTONY", "CURIOSITY", "IGNORANCE"],
-           'WEAPON': ["A FISHING ROD", "ROCKET", "ANTIMATTER"],
-           'BANDIT': ["EINSTEIN", "PIKACHU", "SHREK", "LUIGI"]
+entries = {'SIZE': ['TWO', '314', 'DOZEN', 'RAYO10', "COUNTLESS"],
+           'VICTIM': ["PARROTS", "ROBOTS", "BACTERIA", "JEDIS", "ALIENS", "CITIZENS"],
+           'CRIME': ["STEAL", "TRESPASS", "LIE TO", "DESTROY", "PUNCH", "BITE", "TELEPORT", "TRANSMOGRIFY"],
+           'TIME': ["NOON", "MIDNIGHT", "DAWN", "DUSK", "JURASIC"],
+           'PLACE': ["HOSPITAL", "MALL", "FOREST", "MOON", "CLASS", "BEACH", "JUNGLE"],
+           'MOTIVE': ["GLUTTONY", "CURIOSITY", "IGNORANCE", "FEAR", "PRIDE", "LOVE"],
+           'WEAPON': ["ROD", "ROCKET", "ANTIMATTER", "NEUTRINOS", "SHURIKEN", "PENCIL"],
+           'BANDIT': ["EINSTEIN", "PIKACHU", "SHREK", "LUIGI", "BARBIE", "BATMAN"]
            }
 
 # Find the path to this script
@@ -40,9 +40,9 @@ with open(SCRIPT_PATH + "plates.csv", 'w') as plates_file:
         j = random.randint(0, len(entries[key])-1)
         random_value = entries[key][j]
 
-        entry = key + ": " + random_value
+        entry = key + "," + random_value
         print(entry)
-        csvwriter.writerow([entry])
+        csvwriter.writerow([key, random_value])
 
         # Generate plate
    
