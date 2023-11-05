@@ -21,7 +21,7 @@ cd ~/ros_ws/src
 
 * Clone the repository into a catkin workspace src folder.
 ```
-git clone https://github.com/ENPH353/2022_competition.git
+git clone https://github.com/ENPH353/2023_competition.git
 ```
 
 * Build the packages
@@ -37,7 +37,7 @@ source devel/setup.bash
 
 * Start the simulated world
 ```
-cd src/2022_competition/enph353/enph353_utils/scripts
+cd src/2023_competition/enph353/enph353_utils/scripts
 ./run_sim.sh -vpg
 ```
 The available options are:
@@ -52,7 +52,7 @@ The available options are:
 Open a new tab in the current terminal window by pressing Ctrl+Shift+T 
 The new terminal should already be in:
 ```
-~/ros_ws/src/2022_competition/enph353/enph353_utils/scripts
+~/ros_ws/src/2023_competition/enph353/enph353_utils/scripts
 ```
 Launch the score tracking app:
 ```
