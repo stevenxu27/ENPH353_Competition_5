@@ -19,8 +19,11 @@ class Window(QtWidgets.QMainWindow):
 
     def __init__(self):
         super(Window, self).__init__()
+
+        # Register the UI elements in Python
         loadUi("./score_tracker.ui", self)
 
+        # Add logo
         pixmap = QPixmap('FIZZ_CLUE.svg')
         self.label_QL.setPixmap(pixmap)
 
@@ -31,7 +34,15 @@ class Window(QtWidgets.QMainWindow):
                               date_time + '.txt')
         self.log_file_value_QL.setText(self.log_file_path)
 
-        # Populate tables
+        # Set score table contents
+        # Adjust column widths
+        self.license_scores_QTW.setColumnWidth(0, 12)
+        self.license_scores_QTW.setColumnWidth(1, 80)
+        self.license_scores_QTW.setColumnWidth(2, 130)
+        self.license_scores_QTW.setColumnWidth(3, 130)
+        self.license_scores_QTW.setColumnWidth(4, 40)
+
+        # Populate table contents
         # @sa plate_generator.py: this is where the plates.csv is generated
         LICENSE_PLATE_FILE = '/../../enph353_gazebo/scripts/plates.csv'
         SCRIPT_FILE_PATH = os.path.dirname(os.path.realpath(__file__))
@@ -40,18 +51,19 @@ class Window(QtWidgets.QMainWindow):
             i=0
             for row in platereader:
                 if i < NUM_LOCATIONS:
-                    self.license_scores_QTW.item(i, 1).setText(row[1])
+                    self.license_scores_QTW.item(i, 2).setText(row[1])
                     self.log_msg("Clue {}: {}".format(row[0], row[1]))
                 else:
                     break
                 i += 1
 
+        # Register timer 
         self.timer = QTimer(self)
         self.timer.timeout.connect(self.SLOT_timer_update)
         self.elapsed_time_s = 0
 
         # Initialize other variables:
-        self.full_lap_points = 0
+        self.bonus_points = 0
 
         self.first_cmd_vel = True
 
@@ -62,28 +74,37 @@ class Window(QtWidgets.QMainWindow):
         self.penalties_scores_QTW.itemChanged.connect(self.SLOT_penalties_changed)
 
         # Penalties deducted:
-        self.penalty_vehicle_QPB.clicked.connect(self.SLOT_penalty_vehicle)
-        self.penalty_pedestrian_QPB.clicked.connect(self.SLOT_penalty_pedestrian)
+        self.penalty_vehicle_QPB.clicked.connect(self.SLOT_penalty_collision)
+        self.penalty_pedestrian_QPB.clicked.connect(self.SLOT_penalty_respawn)
         self.penalty_track_QPB.clicked.connect(self.SLOT_penalty_track)
 
-        self.lap_completed_QPB.clicked.connect(self.SLOT_lap_completed)
+        self.lap_completed_QPB.clicked.connect(self.SLOT_bonus_completed)
         self.manual_control_QPB.clicked.connect(self.SLOT_manual_control)
 
         self.message_received_signal.connect(self.SLOT_message_received)
 
         # Set-up ROS subscribers
-        self.sub_license_plate = rospy.Subscriber("license_plate", String, 
-                                                  self.licensePlate_callback)
+        self.sub_score_tracker = rospy.Subscriber("score_tracker", String, 
+                                                  self.score_tracker_callback)
         self.sub_cmd_vel = rospy.Subscriber("/R1/cmd_vel", Twist,
                                             self.cmd_vel_callback)
+        
+        # Register ROS node
         rospy.init_node('competition_listener')
 
     def cmd_vel_callback(self, data):
+        '''
+        Used to log that the car has started moving.
+        '''
         if self.first_cmd_vel:
             self.log_msg("First command velocity received.")
             self.first_cmd_vel = False
 
-    def licensePlate_callback(self, data):
+    def score_tracker_callback(self, data):
+        '''
+        Use the callback to emit a signal. This is how we translate from ROS to
+        Qt events. (ROS event -> subscriber callback -> Qt Signal -> Qt Slot)
+        '''
         self.message_received_signal.emit(str(data.data))
 
 
@@ -100,12 +121,12 @@ class Window(QtWidgets.QMainWindow):
             html_file.write(log_file_content)
 
 
-    def SLOT_lap_completed(self):
-        if self.full_lap_points == 5:
-            self.log_msg("Full lap completed already awarded points.")
+    def SLOT_bonus_completed(self):
+        if self.bonus_points == 5:
+            self.log_msg("Bonus completed already awarded points.")
             return
-        self.log_msg("Full lap completed: +5 points")
-        self.full_lap_points = 5
+        self.log_msg("Bonus completed: +5 points")
+        self.bonus_points = 5
         self.update_license_total()
 
 
@@ -115,23 +136,26 @@ class Window(QtWidgets.QMainWindow):
 
     def SLOT_manual_control(self):
         if (self.manual_control_QPB.isChecked()):
-            self.log_msg("Manual control enabled.")
+            self.log_msg("Manual control enabled (0.5x points).")
         else:
-            self.log_msg("Manual control disabled.")
+            self.log_msg("Manual control disabled (1x points).")
 
 
     def SLOT_message_received(self, license_string):
+        '''
+        Processes the reported data
+        '''
         self.log_msg("Message received: {}".format(license_string))
 
-        teamID, teamPswd, plateLocation, plateID = str(license_string).split(',')
+        teamID, teamPswd, reportedLocation, plateTxt = str(license_string).split(',')
 
         # Check out of bounds plate location
-        if int(plateLocation) < -1 or int(plateLocation) > 8:
-            self.log_msg("Invalid plate location: {}".format(plateLocation))
+        if int(reportedLocation) < -1 or int(reportedLocation) > 8:
+            self.log_msg("Invalid plate location: {}".format(reportedLocation))
             return
         
         # Use to start the timer and register the team name (not for points)
-        if plateLocation == '0':
+        if reportedLocation == '0':
             # Update team ID and log file name:
             if teamID !=  self.team_ID_value_QL.text():
                 now = datetime.now()
@@ -145,20 +169,22 @@ class Window(QtWidgets.QMainWindow):
             return
 
         # Use to stop the timer
-        if plateLocation == '-1':
+        if reportedLocation == '-1':
             self.stop_timer()
             return
 
-        if not plateLocation.isdigit():
+        if not reportedLocation.isdigit():
             self.log_msg("Plate location is not a number.")
             return
 
-        plateLocation = int(plateLocation)
+        reportedLocation = int(reportedLocation)
 
-        # Check submitted license plate ID and location against gnd truth:
+        # Update scoring table with current prediction (column 3 - 0 based index)
         self.license_scores_QTW.blockSignals(True)
-        self.license_scores_QTW.item(plateLocation-1, 2).setText(plateID)
-        gndTruth = str(self.license_scores_QTW.item(plateLocation-1, 1).text())
+        self.license_scores_QTW.item(reportedLocation-1, 3).setText(plateTxt)
+
+        # Read the ground truth for the current prediction (column 3 - 0 based index)
+        gndTruth = str(self.license_scores_QTW.item(reportedLocation-1, 2).text())
         self.license_scores_QTW.blockSignals(False)
 
         # Manual control results in half the points per guess being awarded:
@@ -166,20 +192,20 @@ class Window(QtWidgets.QMainWindow):
         if self.manual_control_QPB.isChecked():
             manual_control_factor = 0.5
 
-        if gndTruth == plateID:
-            # award 8 points for license plates on the inside track and 6 
-            # points for the outside track
+        # Check submitted license plate ID and location against gnd truth:
+        if gndTruth == plateTxt:
+            # award 8 points for the last 2 plates and 6 points for the rest
             points_awarded = int(6 * manual_control_factor)
-            if plateLocation > 6:
+            if reportedLocation > 6:
                 points_awarded = int(8 * manual_control_factor)
-
-            self.log_msg("Awarded: {} pts".format(points_awarded))
-            self.license_scores_QTW.item(plateLocation-1, 3).setText(str(points_awarded))
         else:
-            # otherwise deduct the points awarded (set them to 0)
-            self.log_msg("Awarded: {} pts".format(0))
-            self.license_scores_QTW.item(plateLocation-1, 3).setText(str(0))
+            # if incorrect prediction deduct the points awarded (set them to 0)
+            points_awarded = 0
         
+        # Updated scoring table with number of points awarded (column 4 - 0 based index)
+        self.license_scores_QTW.item(reportedLocation-1, 4).setText(str(points_awarded))
+        self.log_msg("Awarded: {} pts".format(points_awarded))
+
         self.update_story_line()
 
 
@@ -187,31 +213,37 @@ class Window(QtWidgets.QMainWindow):
         self.update_penalty_total()
 
 
-    def SLOT_penalty_pedestrian(self):
-        numEvents       = int(self.penalties_scores_QTW.item(1, 1).text()) + 1
-        penaltyPerEvent = int(self.penalties_scores_QTW.item(1, 2).text())
-        penaltyTotal    = numEvents * penaltyPerEvent
-        self.log_msg("Penalty: pedestrian collision: {} pts".format(penaltyPerEvent))
+    def SLOT_penalty_collision(self):
+        table_row = 0
+
+        # update number of events (this will trigger the update_penalty_total)
+        numEvents       = int(self.penalties_scores_QTW.item(table_row, 1).text()) + 1
+        self.penalties_scores_QTW.item(table_row, 1).setText(str(numEvents))
+
+        penaltyPerEvent = int(self.penalties_scores_QTW.item(table_row, 2).text())
+        self.log_msg("Penalty: collision: {} pts".format(penaltyPerEvent))
+
+
+    def SLOT_penalty_respawn(self):
+        table_row = 1
+
+        # update number of events (this will trigger the update_penalty_total)
+        numEvents       = int(self.penalties_scores_QTW.item(table_row, 1).text()) + 1
+        self.penalties_scores_QTW.item(table_row, 1).setText(str(numEvents))
         
-        self.penalties_scores_QTW.item(1, 1).setText(str(numEvents))
+        penaltyPerEvent = int(self.penalties_scores_QTW.item(table_row, 2).text())
+        self.log_msg("Penalty: respawn: {} pts".format(penaltyPerEvent))
 
 
     def SLOT_penalty_track(self):
-        numEvents       = int(self.penalties_scores_QTW.item(2, 1).text()) + 1
-        penaltyPerEvent = int(self.penalties_scores_QTW.item(2, 2).text())
-        penaltyTotal    = numEvents * penaltyPerEvent
-        self.log_msg("Penalty: track limit: {} pts".format(penaltyPerEvent))
-        
-        self.penalties_scores_QTW.item(2, 1).setText(str(numEvents))
+        table_row = 2
 
+        # update number of events (this will trigger the update_penalty_total)
+        numEvents       = int(self.penalties_scores_QTW.item(table_row, 1).text()) + 1
+        self.penalties_scores_QTW.item(table_row, 1).setText(str(numEvents))
 
-    def SLOT_penalty_vehicle(self):
-        numEvents       = int(self.penalties_scores_QTW.item(0, 1).text()) + 1
-        penaltyPerEvent = int(self.penalties_scores_QTW.item(0, 2).text())
-        penaltyTotal    = numEvents * penaltyPerEvent
-        self.log_msg("Penalty: vehicle collision: {} pts".format(penaltyPerEvent))
-        
-        self.penalties_scores_QTW.item(0, 1).setText(str(numEvents))
+        penaltyPerEvent = int(self.penalties_scores_QTW.item(table_row, 2).text())
+        self.log_msg("Penalty: off road: {} pts".format(penaltyPerEvent))
 
 
     def SLOT_timer_update(self):
@@ -247,12 +279,12 @@ class Window(QtWidgets.QMainWindow):
     def update_license_total(self):
         licenseTotal = 0
         for i in range(NUM_LOCATIONS):
-            licenseTotal += int(self.license_scores_QTW.item(i, 3).text())
+            licenseTotal += int(self.license_scores_QTW.item(i, 4).text())
 
         self.license_total_value_QL.setText(str(licenseTotal))
 
         penaltyTotal = int(self.penalties_total_value_QL.text())
-        teamTotal = penaltyTotal + licenseTotal + self.full_lap_points
+        teamTotal = penaltyTotal + licenseTotal + self.bonus_points
         self.total_score_value_QL.setText(str(teamTotal))
         self.log_msg("Team total: {} pts".format(str(teamTotal)))
 
@@ -260,25 +292,25 @@ class Window(QtWidgets.QMainWindow):
     def update_penalty_total(self):
         self.penalties_scores_QTW.blockSignals(True)
 
-        #update vehicle penalties total:
+        #update collision penalties total:
         numEvents         = int(self.penalties_scores_QTW.item(0, 1).text())
         penaltyPerEvent   = int(self.penalties_scores_QTW.item(0, 2).text())
-        penaltyVehicle    = numEvents * penaltyPerEvent
-        self.penalties_scores_QTW.item(0, 3).setText(str(penaltyVehicle))
+        penaltyCollision  = numEvents * penaltyPerEvent
+        self.penalties_scores_QTW.item(0, 3).setText(str(penaltyCollision))
 
-        #update pedestrian penalties total:
+        #update respawn penalties total:
         numEvents         = int(self.penalties_scores_QTW.item(1, 1).text())
         penaltyPerEvent   = int(self.penalties_scores_QTW.item(1, 2).text())
-        penaltyPedestrian = numEvents * penaltyPerEvent
-        self.penalties_scores_QTW.item(1, 3).setText(str(penaltyPedestrian))
+        penaltyRespawn    = numEvents * penaltyPerEvent
+        self.penalties_scores_QTW.item(1, 3).setText(str(penaltyRespawn))
 
         #update track penalties total
         numEvents         = int(self.penalties_scores_QTW.item(2, 1).text())
         penaltyPerEvent   = int(self.penalties_scores_QTW.item(2, 2).text())
-        penaltyTrack      = numEvents * penaltyPerEvent
-        self.penalties_scores_QTW.item(2, 3).setText(str(penaltyTrack))
+        penaltyOffRoad    = numEvents * penaltyPerEvent
+        self.penalties_scores_QTW.item(2, 3).setText(str(penaltyOffRoad))
 
-        penaltyTotal = penaltyVehicle + penaltyPedestrian + penaltyTrack
+        penaltyTotal = penaltyCollision + penaltyRespawn + penaltyOffRoad
         self.penalties_total_value_QL.setText(str(penaltyTotal))
         self.log_msg("Penalties total: {} pts".format(penaltyTotal))
 

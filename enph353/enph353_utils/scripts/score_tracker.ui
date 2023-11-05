@@ -11,7 +11,7 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>LICENSE PLATE SCORING</string>
+   <string>FIZZ SCORE TRACKER</string>
   </property>
   <property name="windowIcon">
    <iconset>
@@ -82,8 +82,11 @@
      <height>271</height>
     </rect>
    </property>
+   <property name="sizeAdjustPolicy">
+    <enum>QAbstractScrollArea::AdjustIgnored</enum>
+   </property>
    <attribute name="horizontalHeaderMinimumSectionSize">
-    <number>35</number>
+    <number>20</number>
    </attribute>
    <attribute name="verticalHeaderMinimumSectionSize">
     <number>21</number>
@@ -130,6 +133,11 @@
    </row>
    <column>
     <property name="text">
+     <string>ID</string>
+    </property>
+   </column>
+   <column>
+    <property name="text">
      <string>Clue</string>
     </property>
     <property name="font">
@@ -155,12 +163,12 @@
    </column>
    <item row="0" column="0">
     <property name="text">
-     <string>SIZE</string>
+     <string>1</string>
     </property>
    </item>
    <item row="0" column="1">
     <property name="text">
-     <string>0</string>
+     <string>SIZE</string>
     </property>
    </item>
    <item row="0" column="2">
@@ -173,14 +181,19 @@
      <string>0</string>
     </property>
    </item>
+   <item row="0" column="4">
+    <property name="text">
+     <string>0</string>
+    </property>
+   </item>
    <item row="1" column="0">
     <property name="text">
-     <string>VICTIM</string>
+     <string>2</string>
     </property>
    </item>
    <item row="1" column="1">
     <property name="text">
-     <string>0</string>
+     <string>VICTIM</string>
     </property>
    </item>
    <item row="1" column="2">
@@ -193,14 +206,19 @@
      <string>0</string>
     </property>
    </item>
+   <item row="1" column="4">
+    <property name="text">
+     <string>0</string>
+    </property>
+   </item>
    <item row="2" column="0">
     <property name="text">
-     <string>CRIME</string>
+     <string>3</string>
     </property>
    </item>
    <item row="2" column="1">
     <property name="text">
-     <string>0</string>
+     <string>CRIME</string>
     </property>
    </item>
    <item row="2" column="2">
@@ -213,14 +231,19 @@
      <string>0</string>
     </property>
    </item>
+   <item row="2" column="4">
+    <property name="text">
+     <string>0</string>
+    </property>
+   </item>
    <item row="3" column="0">
     <property name="text">
-     <string>TIME</string>
+     <string>4</string>
     </property>
    </item>
    <item row="3" column="1">
     <property name="text">
-     <string>0</string>
+     <string>TIME</string>
     </property>
    </item>
    <item row="3" column="2">
@@ -233,14 +256,19 @@
      <string>0</string>
     </property>
    </item>
+   <item row="3" column="4">
+    <property name="text">
+     <string>0</string>
+    </property>
+   </item>
    <item row="4" column="0">
     <property name="text">
-     <string>PLACE</string>
+     <string>5</string>
     </property>
    </item>
    <item row="4" column="1">
     <property name="text">
-     <string>0</string>
+     <string>PLACE</string>
     </property>
    </item>
    <item row="4" column="2">
@@ -253,14 +281,19 @@
      <string>0</string>
     </property>
    </item>
+   <item row="4" column="4">
+    <property name="text">
+     <string>0</string>
+    </property>
+   </item>
    <item row="5" column="0">
     <property name="text">
-     <string>MOTIVE</string>
+     <string>6</string>
     </property>
    </item>
    <item row="5" column="1">
     <property name="text">
-     <string>0</string>
+     <string>MOTIVE</string>
     </property>
    </item>
    <item row="5" column="2">
@@ -273,14 +306,19 @@
      <string>0</string>
     </property>
    </item>
+   <item row="5" column="4">
+    <property name="text">
+     <string>0</string>
+    </property>
+   </item>
    <item row="6" column="0">
     <property name="text">
-     <string>WEAPON</string>
+     <string>7</string>
     </property>
    </item>
    <item row="6" column="1">
     <property name="text">
-     <string>0</string>
+     <string>WEAPON</string>
     </property>
    </item>
    <item row="6" column="2">
@@ -293,14 +331,19 @@
      <string>0</string>
     </property>
    </item>
+   <item row="6" column="4">
+    <property name="text">
+     <string>0</string>
+    </property>
+   </item>
    <item row="7" column="0">
     <property name="text">
-     <string>BANDIT</string>
+     <string>8</string>
     </property>
    </item>
    <item row="7" column="1">
     <property name="text">
-     <string>0</string>
+     <string>BANDIT</string>
     </property>
    </item>
    <item row="7" column="2">
@@ -309,6 +352,11 @@
     </property>
    </item>
    <item row="7" column="3">
+    <property name="text">
+     <string>0</string>
+    </property>
+   </item>
+   <item row="7" column="4">
     <property name="text">
      <string>0</string>
     </property>
