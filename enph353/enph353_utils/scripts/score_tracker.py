@@ -36,11 +36,11 @@ class Window(QtWidgets.QMainWindow):
 
         # Set score table contents
         # Adjust column widths
-        self.license_scores_QTW.setColumnWidth(0, 12)
-        self.license_scores_QTW.setColumnWidth(1, 80)
-        self.license_scores_QTW.setColumnWidth(2, 130)
-        self.license_scores_QTW.setColumnWidth(3, 130)
-        self.license_scores_QTW.setColumnWidth(4, 40)
+        self.predictions_scores_QTW.setColumnWidth(0, 12)
+        self.predictions_scores_QTW.setColumnWidth(1, 80)
+        self.predictions_scores_QTW.setColumnWidth(2, 130)
+        self.predictions_scores_QTW.setColumnWidth(3, 130)
+        self.predictions_scores_QTW.setColumnWidth(4, 40)
 
         # Populate table contents
         # @sa plate_generator.py: this is where the plates.csv is generated
@@ -51,7 +51,7 @@ class Window(QtWidgets.QMainWindow):
             i=0
             for row in platereader:
                 if i < NUM_LOCATIONS:
-                    self.license_scores_QTW.item(i, 2).setText(row[1])
+                    self.predictions_scores_QTW.item(i, 2).setText(row[1])
                     self.log_msg("Clue {}: {}".format(row[0], row[1]))
                 else:
                     break
@@ -70,7 +70,7 @@ class Window(QtWidgets.QMainWindow):
         # Connect widgets
 
         # Table values changed:
-        self.license_scores_QTW.itemChanged.connect(self.SLOT_license_scores_changed)
+        self.predictions_scores_QTW.itemChanged.connect(self.SLOT_predictions_changed)
         self.penalties_scores_QTW.itemChanged.connect(self.SLOT_penalties_changed)
 
         # Penalties deducted:
@@ -78,8 +78,7 @@ class Window(QtWidgets.QMainWindow):
         self.penalty_pedestrian_QPB.clicked.connect(self.SLOT_penalty_respawn)
         self.penalty_track_QPB.clicked.connect(self.SLOT_penalty_track)
 
-        self.lap_completed_QPB.clicked.connect(self.SLOT_bonus_completed)
-        self.manual_control_QPB.clicked.connect(self.SLOT_manual_control)
+        self.bonus_completed_QPB.clicked.connect(self.SLOT_bonus_completed)
 
         self.message_received_signal.connect(self.SLOT_message_received)
 
@@ -127,27 +126,20 @@ class Window(QtWidgets.QMainWindow):
             return
         self.log_msg("Bonus completed: +5 points")
         self.bonus_points = 5
-        self.update_license_total()
+        self.update_points_total()
 
 
-    def SLOT_license_scores_changed(self):
-        self.update_license_total()
+    def SLOT_predictions_changed(self):
+        self.update_predictions_total()
 
 
-    def SLOT_manual_control(self):
-        if (self.manual_control_QPB.isChecked()):
-            self.log_msg("Manual control enabled (0.5x points).")
-        else:
-            self.log_msg("Manual control disabled (1x points).")
-
-
-    def SLOT_message_received(self, license_string):
+    def SLOT_message_received(self, prediction_string):
         '''
         Processes the reported data
         '''
-        self.log_msg("Message received: {}".format(license_string))
+        self.log_msg("Message received: {}".format(prediction_string))
 
-        teamID, teamPswd, reportedLocation, plateTxt = str(license_string).split(',')
+        teamID, teamPswd, reportedLocation, plateTxt = str(prediction_string).split(',')
 
         # Check out of bounds plate location
         if int(reportedLocation) < -1 or int(reportedLocation) > 8:
@@ -180,30 +172,25 @@ class Window(QtWidgets.QMainWindow):
         reportedLocation = int(reportedLocation)
 
         # Update scoring table with current prediction (column 3 - 0 based index)
-        self.license_scores_QTW.blockSignals(True)
-        self.license_scores_QTW.item(reportedLocation-1, 3).setText(plateTxt)
+        self.predictions_scores_QTW.blockSignals(True)
+        self.predictions_scores_QTW.item(reportedLocation-1, 3).setText(plateTxt)
 
         # Read the ground truth for the current prediction (column 3 - 0 based index)
-        gndTruth = str(self.license_scores_QTW.item(reportedLocation-1, 2).text())
-        self.license_scores_QTW.blockSignals(False)
+        gndTruth = str(self.predictions_scores_QTW.item(reportedLocation-1, 2).text())
+        self.predictions_scores_QTW.blockSignals(False)
 
-        # Manual control results in half the points per guess being awarded:
-        manual_control_factor = 1
-        if self.manual_control_QPB.isChecked():
-            manual_control_factor = 0.5
-
-        # Check submitted license plate ID and location against gnd truth:
+        # Check submitted prediction and location against ground truth:
         if gndTruth == plateTxt:
             # award 8 points for the last 2 plates and 6 points for the rest
-            points_awarded = int(6 * manual_control_factor)
+            points_awarded = 6
             if reportedLocation > 6:
-                points_awarded = int(8 * manual_control_factor)
+                points_awarded = 8
         else:
             # if incorrect prediction deduct the points awarded (set them to 0)
             points_awarded = 0
         
         # Updated scoring table with number of points awarded (column 4 - 0 based index)
-        self.license_scores_QTW.item(reportedLocation-1, 4).setText(str(points_awarded))
+        self.predictions_scores_QTW.item(reportedLocation-1, 4).setText(str(points_awarded))
         self.log_msg("Awarded: {} pts".format(points_awarded))
 
         self.update_story_line()
@@ -276,17 +263,14 @@ class Window(QtWidgets.QMainWindow):
         self.timer.stop()
 
 
-    def update_license_total(self):
-        licenseTotal = 0
+    def update_predictions_total(self):
+        predictionsTotal = 0
         for i in range(NUM_LOCATIONS):
-            licenseTotal += int(self.license_scores_QTW.item(i, 4).text())
+            predictionsTotal += int(self.predictions_scores_QTW.item(i, 4).text())
 
-        self.license_total_value_QL.setText(str(licenseTotal))
+        self.predictions_total_value_QL.setText(str(predictionsTotal))
 
-        penaltyTotal = int(self.penalties_total_value_QL.text())
-        teamTotal = penaltyTotal + licenseTotal + self.bonus_points
-        self.total_score_value_QL.setText(str(teamTotal))
-        self.log_msg("Team total: {} pts".format(str(teamTotal)))
+        self.update_points_total()
 
 
     def update_penalty_total(self):
@@ -314,17 +298,26 @@ class Window(QtWidgets.QMainWindow):
         self.penalties_total_value_QL.setText(str(penaltyTotal))
         self.log_msg("Penalties total: {} pts".format(penaltyTotal))
 
-        licenseTotal = int(self.license_total_value_QL.text())
-        teamTotal = penaltyTotal + licenseTotal
-        self.total_score_value_QL.setText(str(teamTotal))
-        self.log_msg("Team total: {} pts".format(teamTotal))
-
         self.penalties_scores_QTW.blockSignals(False)
+
+        self.update_points_total()
+
+
+    def update_points_total(self):
+        '''
+        Total all the prediction, penalties and bonus points
+        '''
+        predictTotal = int(self.predictions_total_value_QL.text())
+        penaltyTotal = int(self.penalties_total_value_QL.text())
+
+        teamTotal = predictTotal + penaltyTotal + self.bonus_points
+        self.total_score_value_QL.setText(str(teamTotal))
+        self.log_msg("Team total: {} pts".format(str(teamTotal)))
 
 
     def update_story_line(self):
         inspector = self.team_ID_value_QL.text()
-        story = "Detective {} received a message about a new crime in Linear City.".format(inspector)
+        story = "Detective {} received a new clue about crime in Linear City.".format(inspector)
 
         self.story_line_value_QTE.append(story)
 
