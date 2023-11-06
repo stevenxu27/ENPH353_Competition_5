@@ -11,14 +11,30 @@ import string
 from random import randint
 from PIL import Image, ImageFont, ImageDraw
 
-entries = {'SIZE': ['TWO', '314', 'DOZEN', 'RAYO10', "COUNTLESS"],
-           'VICTIM': ["PARROTS", "ROBOTS", "BACTERIA", "JEDIS", "ALIENS", "CITIZENS"],
-           'CRIME': ["STEAL", "TRESPASS", "LIE TO", "DESTROY", "PUNCH", "BITE", "TELEPORT", "TRANSMOGRIFY"],
-           'TIME': ["NOON", "MIDNIGHT", "DAWN", "DUSK", "JURASIC"],
-           'PLACE': ["HOSPITAL", "MALL", "FOREST", "MOON", "CLASS", "BEACH", "JUNGLE"],
-           'MOTIVE': ["GLUTTONY", "CURIOSITY", "IGNORANCE", "FEAR", "PRIDE", "LOVE"],
-           'WEAPON': ["ROD", "ROCKET", "ANTIMATTER", "NEUTRINOS", "SHURIKEN", "PENCIL"],
-           'BANDIT': ["EINSTEIN", "PIKACHU", "SHREK", "LUIGI", "BARBIE", "BATMAN"]
+entries = {'SIZE': ["TWO", "314", "DOZEN", "RAYO10", "COUNTLESS", "LEGIONS",
+                    "TRIPLETS"],
+           'VICTIM': ["PARROTS", "ROBOTS", "BACTERIA", "JEDIS", "ALIENS", 
+                      "CITIZENS", "PHYSICISTS", "FRODO", "DINOSAURS", "BUNNIES",
+                      "BED BUGS", "ANTS"],
+           'CRIME': ["STEAL", "TRESPASS", "LIE TO", "DESTROY", "PUNCH", "BITE", 
+                     "TRANSMOGRIFY", "TELEPORT", "ACCELERATE", "IRRADIATE",
+                     "CURSE", "HEADBUT", "DEFRAUD", "DECELERATE", "TICKLE"],
+           'TIME': ["NOON", "MIDNIGHT", "DAWN", "DUSK", "JURASIC", "TWILIGHT",
+                    "D DAY", "Q DAY", "2023", "WINTER", "SUMMER", "SPRING",
+                    "AUTUMN"],
+           'PLACE': ["HOSPITAL", "MALL", "FOREST", "MOON", "CLASS", "BEACH", 
+                     "JUNGLE", "BASEMENT", "THE HOOD", "SEWERS", "CAVE",
+                     "BENU", "MARS"],
+           'MOTIVE': ["GLUTTONY", "CURIOSITY", "IGNORANCE", "FEAR", "PRIDE", 
+                      "LOVE", "REVENGE", "PASSION", "BOREDOM", "THRILL", 
+                      "GREED", "FAME", "ACCIDENT", "HATE", "SELF DEFENSE"],
+           'WEAPON': ["STICK", "ROCKET", "ANTIMATTER", "NEUTRINOS", "SHURIKEN", 
+                      "PENCIL", "PLASMA", "WATER", "FIRE", "POTATO GUN", 
+                      "ROPE", "ELECTRON", "HIGH VOLTAGE", "POLONIUM"],
+           'BANDIT': ["EINSTEIN", "PIKACHU", "SHREK", "LUIGI", "BARBIE", 
+                      "BATMAN", "CAESAR", "SAURON", "THANOS", "GOKU", 
+                      "CAO CAO", "THE DEVIL", "GODZILA", "TEMUJIN", 
+                      "HANNIBAL"]
            }
 
 # Find the path to this script
@@ -52,9 +68,12 @@ with open(SCRIPT_PATH + "plates.csv", 'w') as plates_file:
         blank_plate_pil = Image.fromarray(banner_canvas)
         # Get a drawing context
         draw = ImageDraw.Draw(blank_plate_pil)
-        monospace = ImageFont.truetype("/usr/share/fonts/truetype/ubuntu/UbuntuMono-R.ttf", 100)
-        draw.text((250, 30), key, (255,0,0), font=monospace)
-        draw.text((30, 250), random_value, (255, 0, 0), font=monospace)
+        font_size = 90
+        monospace = ImageFont.truetype("/usr/share/fonts/truetype/ubuntu/UbuntuMono-R.ttf", 
+                                       font_size)
+        font_color = (255,0,0)
+        draw.text((250, 30), key, font_color, font=monospace)
+        draw.text((30, 250), random_value, font_color, font=monospace)
         # Convert back to OpenCV image and save
         populated_banner = np.array(blank_plate_pil)
 

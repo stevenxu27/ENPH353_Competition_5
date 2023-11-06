@@ -8,7 +8,9 @@ from geometry_msgs.msg import Twist
 from python_qt_binding import loadUi
 
 import csv
+import openai
 import os
+import requests
 import rospy
 import sys
 
@@ -193,8 +195,6 @@ class Window(QtWidgets.QMainWindow):
         self.predictions_scores_QTW.item(reportedLocation-1, 4).setText(str(points_awarded))
         self.log_msg("Awarded: {} pts".format(points_awarded))
 
-        self.update_story_line()
-
 
     def SLOT_penalties_changed(self):
         self.update_penalty_total()
@@ -262,6 +262,8 @@ class Window(QtWidgets.QMainWindow):
                 format(sim_time_s, self.elapsed_time_s))
         self.timer.stop()
 
+        self.update_story_line()
+
 
     def update_predictions_total(self):
         predictionsTotal = 0
@@ -316,8 +318,46 @@ class Window(QtWidgets.QMainWindow):
 
 
     def update_story_line(self):
-        inspector = self.team_ID_value_QL.text()
-        story = "Detective {} received a new clue about crime in Linear City.".format(inspector)
+        '''
+        Using OpenAi's API come up with a story for the crime.
+        '''
+        URL = "https://engphys-projectlab.sites.olt.ubc.ca/files/2023/11/ENPH353Keys.txt"
+
+        response = requests.get(URL)
+        API_KEY, API_ORG = response.text.split(',')
+
+        openai.organization = API_ORG
+        openai.api_key = API_KEY
+
+        inspector_name = self.team_ID_value_QL.text()
+        size   =  str(self.predictions_scores_QTW.item(0, 2).text())
+        victim =  str(self.predictions_scores_QTW.item(1, 2).text())
+        crime  =  str(self.predictions_scores_QTW.item(2, 2).text())
+        time   =  str(self.predictions_scores_QTW.item(3, 2).text())
+        place  =  str(self.predictions_scores_QTW.item(4, 2).text())
+        motive =  str(self.predictions_scores_QTW.item(5, 2).text())
+        weapon =  str(self.predictions_scores_QTW.item(6, 2).text())
+        bandit =  str(self.predictions_scores_QTW.item(7, 2).text())
+
+        prompt = f"""Come up with a 100 word story for a crime that has the following clues:
+Clue: NUMBER OF VICTIMS: {size}
+Clue: VICTIM: {victim}
+Clue: CRIME: {crime}
+Clue: TIME: {time}
+Clue: PLACE: {place}
+Clue: MOTIVE: {motive}
+Clue: WEAPON: {weapon}
+Clue: BANDIT: {bandit}"""
+
+        completion = openai.ChatCompletion.create(
+            model="gpt-3.5-turbo",
+            messages=[
+                {"role": "system", "content": f"You are inspector {inspector_name}, a wise detective \
+                 from a noir-movie."},
+                {"role": "user", "content": prompt}
+            ])
+
+        story = completion.choices[0].message.content
 
         self.story_line_value_QTE.append(story)
 
