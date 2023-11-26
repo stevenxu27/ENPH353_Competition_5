@@ -183,7 +183,7 @@ class Window(QtWidgets.QMainWindow):
         self.predictions_scores_QTW.blockSignals(False)
 
         # Check submitted prediction and location against ground truth:
-        if gndTruth == plateTxt:
+        if gndTruth.replace(" ", "") == plateTxt.replace(" ", ""):
             # award 8 points for the last 2 plates and 6 points for the rest
             points_awarded = 6
             if reportedLocation > 6:
