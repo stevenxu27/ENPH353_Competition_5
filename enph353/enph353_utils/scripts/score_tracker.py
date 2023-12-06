@@ -337,7 +337,7 @@ class Window(QtWidgets.QMainWindow):
         URL = "https://phas.ubc.ca/~miti/ENPH353/ENPH353Keys.txt"
 
         response = requests.get(URL)
-        API_KEY, _ = response.text.split(',')
+        API_KEY,_ = response.text.split(',')
 
         inspector_name = self.team_ID_value_QL.text()
         size   =  str(self.predictions_scores_QTW.item(0, 2).text())
