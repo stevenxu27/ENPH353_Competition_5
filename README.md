@@ -30,6 +30,8 @@ cd ~/ros_ws
 catkin_make
 ```
 
+## Starting the competition:
+
 * Source the environment
 ```
 source devel/setup.bash
@@ -58,6 +60,20 @@ Launch the score tracking app:
 ```
 ./score_tracker.py
 ```
+
+## Shutting down the competition:
+
+I suggest you create an alias in your .bashrc file to terminate all the 
+processes related to Gazebo and ROS. Adding something like below should 
+be sufficient:
+```
+alias killjim="pkill -f gzserver; pkill -f gzclient; killall -9 rosout roslaunch rosmaster gzserver nodelet robot_state_publisher gzclient"
+```
+Then when you need to stop the simulation call 
+```
+killjim
+```
+from a new terminal.
 
 <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">
     <img alt="Creative Commons Licence" style="border-width:0" 
