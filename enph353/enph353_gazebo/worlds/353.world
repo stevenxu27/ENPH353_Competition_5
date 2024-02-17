@@ -231,14 +231,17 @@
       <static>true</static>
       <pose> 1 -1.8 0 0 0 0</pose>
     </include>
+    <!-- TREES END -->
 
+    <!-- CACTI START -->
     <include>
       <uri>model://cactus</uri>
       <name>cactus_01</name>
       <static>true</static>
-      <pose> -5 -0 -0.02 0 0 1.57</pose>
+      <pose> -5.3 0.5 -0.09 0 0 1.57</pose>
     </include>
-    <!-- TREES END -->
+    <!-- CACTI END -->
+    
 
     <gui>
       <camera name="user_camera">
