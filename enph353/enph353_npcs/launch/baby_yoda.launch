@@ -1,10 +1,7 @@
 <launch>
   <arg name="robot_name"/>
   <arg name="init_pose"/>
-  <arg name="pose_a_x"/>
-  <arg name="pose_a_y"/>
-  <arg name="pose_b_x"/>
-  <arg name="pose_b_y"/>
+    <arg name="waypoints_file"/>
   <arg name="model" default="$(find enph353_npcs)/agents/pedestrian/urdf/baby_yoda.urdf"/>
 
   <param name="robot_description" command="$(find xacro)/xacro $(arg model)" />
@@ -16,11 +13,8 @@
     <param name="publish_frequency" type="double" value="30" />
   </node>
 
-  <node pkg="enph353_npcs" type="ped_move_point_to_point.py" name="crosswalk_controller" output="screen">
+  <node pkg="enph353_npcs" type="vehicle_controller.py" name="vehicle_controller" output="screen">
   	<param name="name" value="$(arg robot_name)"/>
-  	<param name="pose_a_x" value="$(arg pose_a_x)"/>
-  	<param name="pose_a_y" value="$(arg pose_a_y)"/>
-  	<param name="pose_b_x" value="$(arg pose_b_x)"/>
-  	<param name="pose_b_y" value="$(arg pose_b_y)"/>
+    <param name="waypoints_file" value="$(arg waypoints_file)"/>
   </node>
 </launch>

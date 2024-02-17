@@ -24,12 +24,12 @@ class VehicleController():
         self.pose_goal_index = 0
 
         with open(self.waypoints_file) as waypoints_csv:
-        	waypoints_reader = csv.reader(waypoints_csv, delimiter=',', quoting=csv.QUOTE_NONNUMERIC)
-        	for row in waypoints_reader:
-        		new_pose = Pose()
-        		new_pose.position.x = row[0]
-        		new_pose.position.y = row[1]
-        		self.pose_goal_buffer.append(new_pose)
+            waypoints_reader = csv.reader(waypoints_csv, delimiter=',', quoting=csv.QUOTE_NONNUMERIC)
+            for row in waypoints_reader:
+                new_pose = Pose()
+                new_pose.position.x = row[0]
+                new_pose.position.y = row[1]
+                self.pose_goal_buffer.append(new_pose)
         self.pose_goal = self.pose_goal_buffer[0]
 
         self.max_angular_vel = 2
@@ -81,7 +81,7 @@ class VehicleController():
                         # print("Reached goal")
                         self.pose_goal_index += 1
                         if self.pose_goal_index >= len(self.pose_goal_buffer):
-                        	self.pose_goal_index = 0 
+                            self.pose_goal_index = 0 
                         self.pose_goal = self.pose_goal_buffer[self.pose_goal_index]
                     self.vel_pub.publish(cmd_vel)
 
