@@ -349,7 +349,7 @@ class Window(QtWidgets.QMainWindow):
         weapon =  str(self.predictions_scores_QTW.item(6, 2).text())
         bandit =  str(self.predictions_scores_QTW.item(7, 2).text())
 
-        prompt = f"""Come up with a 150 word story for a crime that has the following clues:
+        prompt = f"""Come up with a 100 word story for a crime that has the following clues:
 Clue: NUMBER OF VICTIMS: {size}
 Clue: VICTIM: {victim}
 Clue: CRIME: {crime}
