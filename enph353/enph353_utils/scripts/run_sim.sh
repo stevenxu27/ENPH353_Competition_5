@@ -33,6 +33,7 @@ git status | head
 echo -e "\n################################################################\n"
 sleep 5s
 
+# generate new plates if necessary
 if $generate_plates = 'true'
 then
 	DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
@@ -41,6 +42,7 @@ then
 	python3 $FULL_PATH
 fi
 
+# display plates with or without QR code
 if $label_plates = 'true'
 then
   ln -sfn labelled ../../enph353_gazebo/media/materials/textures/license_plates
@@ -48,4 +50,5 @@ else
   ln -sfn unlabelled ../../enph353_gazebo/media/materials/textures/license_plates
 fi
 
+# start the ROS environment
 roslaunch enph353_utils sim.launch spawn_pedestrians:=$spawn_pedestrians spawn_vehicles:=$spawn_vehicles
