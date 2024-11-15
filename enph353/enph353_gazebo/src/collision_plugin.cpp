@@ -9,7 +9,7 @@
 namespace gazebo
 {
 
-// Register plugin with ros gazebo
+// Register plugin with ros gazebo 
 GZ_REGISTER_WORLD_PLUGIN(CollisionPlugin);
 
 CollisionPlugin::CollisionPlugin() : WorldPlugin(), collisionNode(new transport::Node())
@@ -19,7 +19,7 @@ CollisionPlugin::CollisionPlugin() : WorldPlugin(), collisionNode(new transport:
 void CollisionPlugin::Load(physics::WorldPtr _world, sdf::ElementPtr _sdf)
 {
 
-  // Make sure the ROS node for Gazebo has already been initialized
+  // Make sure the ROS node for Gazebo has already been initialized.
   if (!ros::isInitialized())
   {
     ROS_FATAL_STREAM("A ROS node for Gazebo has not been initialized, unable to load plugin. "
