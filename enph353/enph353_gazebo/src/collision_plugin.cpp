@@ -9,7 +9,7 @@
 namespace gazebo
 {
 
-// Register plugin with gazebo
+// Register plugin with ros gazebo
 GZ_REGISTER_WORLD_PLUGIN(CollisionPlugin);
 
 CollisionPlugin::CollisionPlugin() : WorldPlugin(), collisionNode(new transport::Node())
